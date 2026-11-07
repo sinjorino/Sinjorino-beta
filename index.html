@@ -193,8 +193,82 @@ kbd{display:none}
 .skip{display:none;margin:14px auto 0;background:none;border:0;color:#8d8d92;font:400 13px "Nunito",sans-serif;cursor:pointer;transition:color .3s}
 .skip:hover{color:#fff}
 .acard.pw .skip{display:block}
+
+.micb{flex:none;width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:#cfcfd4;cursor:pointer;display:grid;place-items:center;transition:.3s}
+.micb:hover{background:rgba(255,255,255,.12);color:#fff;transform:scale(1.08)}
+#voz{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:24px;background:rgba(0,0,0,.74);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);opacity:0;visibility:hidden;transition:opacity .6s,visibility 0s .6s}
+#voz.on{opacity:1;visibility:visible;transition:opacity .6s}
+.vx{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:18px;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:#fff;font-size:22px;line-height:1;cursor:pointer;transition:.3s}
+.vx:hover{background:#fff;color:#000;transform:rotate(90deg)}
+.orb{position:relative;width:220px;height:220px;display:grid;place-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.orb .core{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#bfbfc6 55%,#6d6d75);box-shadow:0 0 60px rgba(255,255,255,.35),inset 0 -8px 20px rgba(0,0,0,.25)}
+.orb i{position:absolute;inset:0;margin:auto;width:110px;height:110px;border-radius:50%;border:1px solid rgba(255,255,255,.4);opacity:0}
+#voz[data-s=idle] .core{animation:breathe2 4s ease-in-out infinite}
+#voz[data-s=listen] .core{animation:breathe2 2s ease-in-out infinite}
+#voz[data-s=listen] .orb i,#voz[data-s=speak] .orb i{animation:ripple 2.4s ease-out infinite}
+#voz[data-s=listen] .orb i:nth-child(2){animation-delay:.8s}#voz[data-s=listen] .orb i:nth-child(3){animation-delay:1.6s}
+#voz[data-s=think] .core{animation:pulse3 .9s ease-in-out infinite}
+#voz[data-s=think] .orb i:nth-child(1){opacity:.6;width:150px;height:150px;border-style:dashed;animation:spin 3s linear infinite}
+#voz[data-s=speak] .core{animation:talk .55s ease-in-out infinite alternate}
+#voz[data-s=speak] .orb i{animation-duration:1.6s}
+#voz[data-s=speak] .orb i:nth-child(2){animation-delay:.5s}#voz[data-s=speak] .orb i:nth-child(3){animation-delay:1s}
+@keyframes breathe2{50%{transform:scale(1.12)}}
+@keyframes ripple{0%{transform:scale(1);opacity:.55}100%{transform:scale(2.3);opacity:0}}
+@keyframes pulse3{50%{transform:scale(.88);opacity:.7}}
+@keyframes talk{from{transform:scale(.95)}to{transform:scale(1.22)}}
+.vst{font:500 12px "IBM Plex Mono",monospace;letter-spacing:.3em;text-transform:uppercase;color:#9a9aa2;text-align:center;max-width:330px;line-height:1.7}
+.vtx{min-height:68px;max-width:min(560px,90vw);text-align:center;font:300 22px/1.45 "Nunito",sans-serif;color:#f2f2f2}
+.vhint{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom,0px));font:400 11px "IBM Plex Mono",monospace;letter-spacing:.18em;color:#5f5f66;text-transform:uppercase;text-align:center;padding:0 20px}
+
+.vname{position:absolute;top:calc(24px + env(safe-area-inset-top,0px));left:0;right:0;text-align:center;font:600 13px "IBM Plex Mono",monospace;letter-spacing:.7em;text-indent:.7em;color:#fff;opacity:.85}
+.av{position:relative;height:min(52vh,460px);aspect-ratio:4/5;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#voz.on .av{animation:avin 1.8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes avin{from{opacity:0;transform:scale(.92);filter:blur(10px)}}
+.avs{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#avp{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+.body{transform-box:fill-box;transform-origin:50% 100%;animation:sway 7s ease-in-out infinite;transition:opacity .9s,filter .9s}
+@keyframes sway{50%{transform:translateY(-4px) rotate(.6deg)}}
+.sweep{animation:sweepx 6s ease-in-out infinite}
+@keyframes sweepx{from{transform:translateX(0)}to{transform:translateX(620px)}}
+.eyes{transform-box:fill-box;transform-origin:center;animation:blink2 5s infinite}
+@keyframes blink2{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.08)}}
+.ring{transform-box:fill-box;transform-origin:center;opacity:.14;animation:spin 40s linear infinite;transition:opacity .9s}
+#voz[data-s=listen] .ring{opacity:.4}
+#voz[data-s=speak] .ring{opacity:.25}
+#voz[data-s=think] .ring{opacity:1;animation-duration:6s}
+#voz[data-s=think] .body{opacity:.14;filter:blur(2px)}
 </style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script></head><body>
 <div id="intro"><div class="ig"><div class="rings"><i></i><i></i><i></i></div><svg class="ilogo" viewBox="0 0 48 48" fill="none" stroke="#fff"><circle class="d1" cx="24" cy="24" r="22" pathLength="1"/><path class="d2" pathLength="1" d="M8 28c4 0 4-12 8-12s4 12 8 12 4-12 8-12 4 12 8 12"/></svg><div class="iname" id="iname" aria-label="Sinjorino"></div><div class="ibar"><b></b></div><div class="icount" id="icount"></div></div><div class="iskip">toque para pular</div></div>
+<div id="voz" data-s="idle"><button class="vx" id="vx" aria-label="Fechar">×</button>
+<div class="vname">AVA</div>
+<div class="av" id="orb"><canvas id="avp"></canvas>
+<svg class="avs" viewBox="0 0 400 500" fill="none">
+<defs>
+<linearGradient id="gk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3a40"/><stop offset=".5" stop-color="#0b0b0d"/><stop offset="1" stop-color="#26262b"/></linearGradient>
+<linearGradient id="gs" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<radialGradient id="gh" cx=".5" cy=".42" r=".55"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<filter id="fg" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<clipPath id="cb"><path d="M90 500C92 410 112 340 168 300L184 262H216L232 300C288 340 308 410 310 500Z"/><path d="M200 58C168 58 150 92 152 132C154 172 172 205 200 214C228 205 246 172 248 132C250 92 232 58 200 58Z"/></clipPath>
+<g id="hd" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none"><path d="M45 430C40 400 44 380 56 372H76C88 380 90 400 85 430Z" fill="#0b0b0e" stroke-opacity=".7"/><path d="M52 374C48 340 46 318 48 300M62 372C60 335 60 305 63 284M72 372C73 338 76 312 80 294M82 376C86 352 92 332 98 318M46 400C30 392 22 378 20 362" filter="url(#fg)"/></g>
+</defs>
+<circle id="halo" cx="200" cy="230" r="230" fill="url(#gh)"/>
+<g class="ring"><circle cx="200" cy="250" r="150" stroke="#fff" stroke-width="2.2" filter="url(#fg)"/><circle cx="200" cy="250" r="143" stroke="#fff" stroke-width="1" opacity=".6" stroke-dasharray="40 14"/></g>
+<g class="body">
+<path d="M184 205L182 268H218L216 205Z" fill="#0a0a0c" stroke="#fff" stroke-opacity=".3"/>
+<path d="M90 500C92 410 112 340 168 300L184 262H216L232 300C288 340 308 410 310 500Z" fill="url(#gk)" stroke="#fff" stroke-opacity=".55" stroke-width="1.4" filter="url(#fg)"/>
+<path d="M200 58C168 58 150 92 152 132C154 172 172 205 200 214C228 205 246 172 248 132C250 92 232 58 200 58Z" fill="url(#gk)" stroke="#fff" stroke-opacity=".6" stroke-width="1.4" filter="url(#fg)"/>
+<g clip-path="url(#cb)"><rect class="sweep" x="-140" y="0" width="120" height="500" fill="url(#gs)" opacity=".4"/></g>
+<g class="eyes" filter="url(#fg)"><path d="M168 122Q181 111 195 122Q181 128 168 122Z" stroke="#fff" stroke-width="1.6"/><path d="M205 122Q219 111 232 122Q219 128 205 122Z" stroke="#fff" stroke-width="1.6"/><circle cx="181" cy="120" r="2.4" fill="#fff"/><circle cx="219" cy="120" r="2.4" fill="#fff"/></g>
+<path d="M162 104Q180 94 196 103M204 103Q220 94 238 104" stroke="#fff" stroke-opacity=".5" stroke-width="1.2"/>
+<path d="M200 130L197 160Q200 164 203 160" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"/>
+<g><ellipse id="mi" cx="200" cy="182" rx="9" ry="1" fill="#000"/><path d="M184 182Q192 175 200 178Q208 175 216 182Q200 187 184 182Z" fill="#f1f1f3"/><path id="lo" d="M186 182Q200 197 214 182Q200 187 186 182Z" fill="#dcdce0"/></g>
+</g>
+<g id="hl2" opacity="0"><use href="#hd"/></g>
+<g id="hr2" opacity="0"><use href="#hd" transform="translate(400 0) scale(-1 1)"/></g>
+</svg></div>
+<div class="vst" id="vst">toque na Ava para falar</div>
+<div class="vtx" id="vtx"></div>
+<div class="vhint">toque na Ava para falar ou interromper</div></div>
 <div id="auth"><div class="acard" id="acard">
 <svg class="alogo" viewBox="0 0 48 48" fill="none" stroke="#fff"><circle cx="24" cy="24" r="19" stroke-width="1.4"/><path class="wv" d="M8 28c4 0 4-12 8-12s4 12 8 12 4-12 8-12 4 12 8 12" stroke-width="1.7" stroke-linecap="round"/></svg>
 <div class="asub" id="asub">bem-vindo de volta</div>
@@ -216,7 +290,7 @@ kbd{display:none}
 <div><h1>SINJORINO</h1><p id="sub"></p></div><button class="mem" id="mem">memória · <b id="mc">0</b></button><button class="me" id="me" aria-label="Conta">?</button><div class="pop" id="pop"></div></header>
 <div class="hist"><button class="hc new" id="newc">＋ Nova</button><div class="hl" id="hl"></div></div>
 <div class="msgs" id="msgs"></div>
-<div class="barw"><div class="bar"><span class="pr">›</span><input id="in" placeholder="pergunte algo ao Sinjorino…" autocomplete="off" enterkeyhint="send"><kbd>enter</kbd><button id="go" aria-label="Enviar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5v7a3 3 0 0 1-3 3H5M9 10l-4 5 4 5"/></svg></button></div></div>
+<div class="barw"><div class="bar"><span class="pr">›</span><input id="in" placeholder="pergunte algo ao Sinjorino…" autocomplete="off" enterkeyhint="send"><button class="micb" id="mic" aria-label="Falar com a Ava" title="Falar com a Ava"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button><kbd>enter</kbd><button id="go" aria-label="Enviar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5v7a3 3 0 0 1-3 3H5M9 10l-4 5 4 5"/></svg></button></div></div>
 </section></div>
 <div class="bg"><i class="o1"></i><i class="o2"></i><i class="o3"></i><i class="core"></i></div>
 <script>
@@ -322,18 +396,18 @@ async function send(txt){
  add('u',txt);
  try{await ensureConv(txt)}catch(e){}
  if(tm){const f='ensinado: “'+tm[1].slice(0,80)+'” → “'+tm[2].slice(0,120)+'”',rp='Aprendido. Agora sei responder “'+tm[1]+'”.';
-  hist.push({role:'user',content:txt},{role:'assistant',content:rp});add('a',rp);nodes.forEach(n=>n.g=1);
+  hist.push({role:'user',content:txt},{role:'assistant',content:rp});add('a',rp);nodes.forEach(n=>n.g=1);if(voiceOn)speak(rp);
   const r=await sb.from('memorias').insert({texto:f});if(!r.error){facts.push(f);drawMem()}
   persist([{role:'user',content:txt},{role:'assistant',content:rp}]);$('#sub').textContent=subIdle();return}
  hist.push({role:'user',content:txt});
  const el=add('a','');el.classList.add('live');setBusy(true);
  try{
   let m=hist.slice(-14);while(m.length&&m[0].role!=='user')m.shift();
-  const d=await api({messages:m,facts});
-  await type(el,d.text);hist.push({role:'assistant',content:d.text});persist([{role:'user',content:txt},{role:'assistant',content:d.text}]);learn(txt);
+  const m2=voiceOn?m.map((x,i)=>i===m.length-1?{...x,content:x.content+'\n\n[modo voz: você é a Ava, a voz e o rosto do Sinjorino; se perguntarem seu nome, diga Ava. Responda em até 3 frases curtas, em linguagem falada, calma e elegante, sem listas, sem símbolos e sem emojis]'}:x):m;const d=await api({messages:m2,facts});
+  if(voiceOn)speak(d.text);await type(el,d.text);hist.push({role:'assistant',content:d.text});persist([{role:'user',content:txt},{role:'assistant',content:d.text}]);learn(txt);
   outK=Math.abs([...d.text].reduce((a,c)=>(a*31+c.charCodeAt(0))|0,7))%11;outG=1;nodes[nodes.length-11+outK].g=1;
  }catch(e){
-  hist.pop();el.textContent=(e&&e.message)||'Não consegui responder agora. Tente novamente em instantes.';
+  hist.pop();el.textContent=(e&&e.message)||'Não consegui responder agora. Tente novamente em instantes.';if(voiceOn)vset('idle','Não consegui responder. Toque na Ava para tentar de novo.');
  }finally{el.classList.remove('live');setBusy(false)}
 }
 function go(){const v=$('#in').value.trim();if(!v||busy)return;$('#in').value='';send(v)}
@@ -384,7 +458,76 @@ function dbg(t){if(!DBG)return;if(!dbgEl){dbgEl=document.createElement('pre');db
 async function finish(){$('#me').textContent=(nome()[0]||'?').toUpperCase();await loadAll();closeAuth();route()}
 async function enterApp(u){if(user&&user.id===u.id)return;user=u;dbg('login: '+(u.email||'?')+' | provedores: '+provs(u).join(',')+' | pede senha: '+needsPw(u));if(needsPw(u)){pendingPw=true;manualPw=false;setMode('pw');$('#askip').textContent='agora não';route();return}await finish()}
 $('#askip').onclick=async()=>{if(!sb)return;if(manualPw){manualPw=false;pendingPw=false;closeAuth();setMode('in');return}try{await sb.auth.updateUser({data:{senha_ok:true}})}catch(e){}pendingPw=false;await finish()};
-function leave(){user=null;pendingPw=false;manualPw=false;cur=null;hist=[];facts=[];convs=[];pop.classList.remove('on');AP.classList.remove('go','chatting');$('#msgs').textContent='';drawMem();drawHist();['au','ae','ap','ac'].forEach(i=>$('#'+i).value='');setMode('in');route()}
+function leave(){closeVoice();user=null;pendingPw=false;manualPw=false;cur=null;hist=[];facts=[];convs=[];pop.classList.remove('on');AP.classList.remove('go','chatting');$('#msgs').textContent='';drawMem();drawHist();['au','ae','ap','ac'].forEach(i=>$('#'+i).value='');setMode('in');route()}
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition,TTS=window.speechSynthesis,VZ=$('#voz');
+let voiceOn=false,rec=null,vstate='idle',noSpeech=0,vVoice=null,sayId=0;
+if(!SR)$('#mic').style.display='none';
+function vset(s,t){vstate=s;VZ.dataset.s=s;$('#vst').textContent=t||({idle:'toque na Ava para falar',listen:'ouvindo…',think:'pensando…',speak:'falando…'}[s])}
+function pickVoice(){const v=TTS?TTS.getVoices():[],br=v.filter(x=>/pt[-_]BR/i.test(x.lang));vVoice=br.find(x=>/francisca|luciana|vit[oó]ria|maria|helena|google/i.test(x.name))||br[0]||v.find(x=>/^pt/i.test(x.lang))||null}
+if(TTS){pickVoice();TTS.onvoiceschanged=pickVoice}
+function hush(){sayId++;if(TTS)TTS.cancel()}
+function stopRec(){if(rec){const r=rec;rec=null;r.onend=null;r.onerror=null;try{r.abort()}catch(e){}}}
+function speak(text){
+ if(!TTS){vset('idle');return}
+ stopRec();TTS.cancel();
+ const t=text.replace(/\p{Extended_Pictographic}/gu,'').replace(/https?:\/\/\S+/g,'link').replace(/[*_#`>~|]/g,'').replace(/\s+/g,' ').trim();
+ if(!t){listen();return}
+ const parts=t.match(/[^.!?;:]+[.!?;:]*\s*/g)||[t],chunks=[];let cur='';
+ for(const p of parts){if((cur+p).length>180&&cur){chunks.push(cur);cur=p}else cur+=p}if(cur)chunks.push(cur);
+ const id=++sayId;vset('speak');
+ chunks.forEach((c,i)=>{const u=new SpeechSynthesisUtterance(c);u.lang='pt-BR';if(vVoice)u.voice=vVoice;u.rate=.97;u.pitch=1.06;u.onboundary=()=>{kick=1};
+  u.onend=()=>{if(id===sayId&&i===chunks.length-1){if(voiceOn)setTimeout(listen,350);else vset('idle')}};TTS.speak(u)})
+}
+function listen(){
+ if(!voiceOn||!SR||busy)return;
+ hush();stopRec();
+ const r=new SR();rec=r;r.lang='pt-BR';r.interimResults=true;r.continuous=false;let fin='';
+ r.onstart=()=>{vset('listen');$('#vtx').textContent=''};
+ r.onresult=e=>{let it='';for(let i=e.resultIndex;i<e.results.length;i++){const x=e.results[i];if(x.isFinal)fin+=x[0].transcript;else it+=x[0].transcript}$('#vtx').textContent=(fin+it).trim()};
+ r.onerror=e=>{const er=e.error;if(er==='no-speech'||er==='aborted')return;
+  if(er==='not-allowed'||er==='service-not-allowed')vset('idle','Permita o microfone nas configurações do navegador e toque para tentar de novo.');
+  else vset('idle','Não consegui ouvir ('+er+'). Toque na Ava para tentar de novo.')};
+ r.onend=()=>{const t=fin.trim();if(rec===r)rec=null;if(!voiceOn)return;
+  if(t){noSpeech=0;vset('think');send(t)}
+  else if(vstate==='listen'){if(++noSpeech<3)setTimeout(listen,300);else vset('idle')}};
+ try{r.start()}catch(e){vset('idle','Não consegui abrir o microfone. Toque para tentar de novo.')}
+}
+function openVoice(){
+ if(!SR){alert('Seu navegador não suporta voz. Use o Chrome ou o Safari.');return}
+ if(busy)return;
+ voiceOn=true;noSpeech=0;VZ.classList.add('on');$('#vtx').textContent='';
+ try{if(TTS)TTS.speak(new SpeechSynthesisUtterance(''))}catch(e){}if(!avRun){avRun=true;requestAnimationFrame(avLoop)}
+ listen();
+}
+function closeVoice(){voiceOn=false;hush();stopRec();VZ.classList.remove('on');vset('idle')}
+$('#mic').onclick=openVoice;$('#vx').onclick=closeVoice;
+$('#orb').onclick=()=>{if(vstate==='speak'){hush();listen()}else if(vstate==='idle')listen();else if(vstate==='listen'&&rec){try{rec.stop()}catch(e){}}};
+addEventListener('keydown',e=>{if(e.key==='Escape'&&voiceOn)closeVoice()});
+const avp=$('#avp'),pc=avp.getContext('2d'),mi=$('#mi'),lo=$('#lo'),hl=$('#hl2'),hr=$('#hr2'),halo=$('#halo');
+let mouth=0,hand=0,kick=0,avRun=false,pts=[];
+function avLoop(t){
+ if(!voiceOn){avRun=false;return}
+ requestAnimationFrame(avLoop);
+ const w=avp.clientWidth,hh=avp.clientHeight,d=Math.min(devicePixelRatio||1,2);
+ if(avp.width!==Math.round(w*d)){avp.width=Math.round(w*d);avp.height=Math.round(hh*d)}
+ const s=vstate,sp=s==='speak';
+ kick*=.88;const env=Math.max(0,Math.sin(t/85)*Math.sin(t/210+1));
+ mouth+=((sp?Math.max(env,kick*.9)*.95+.08:s==='listen'?.02:0)-mouth)*.4;
+ mi.setAttribute('ry',(1+mouth*9).toFixed(2));lo.setAttribute('transform','translate(0 '+(mouth*7).toFixed(2)+')');
+ hand+=((sp?1:0)-hand)*.06;
+ const hy=(1-hand)*210-170+Math.sin(t/420)*7*hand,an=Math.sin(t/520)*7*hand;
+ hl.setAttribute('transform','translate(0 '+hy.toFixed(1)+') rotate('+(-8*hand+an).toFixed(1)+' 65 430)');
+ hr.setAttribute('transform','translate(0 '+hy.toFixed(1)+') rotate('+(8*hand-an).toFixed(1)+' 335 430)');
+ hl.setAttribute('opacity',hand.toFixed(2));hr.setAttribute('opacity',hand.toFixed(2));
+ halo.setAttribute('opacity',(.55+(sp?mouth*.5:0)+(s==='think'?.2:0)).toFixed(2));
+ pc.setTransform(d,0,0,d,0,0);pc.clearRect(0,0,w,hh);
+ const cx=w/2,cy=hh*.5,R=w*.375;
+ if(s==='think')for(let i=0;i<28;i++){const a=t/650+i*.2244,rr=R*(1+.04*Math.sin(t/300+i));pc.fillStyle='rgba(255,255,255,'+(.25+.6*((i%7)/7))+')';pc.fillRect(cx+Math.cos(a)*rr-1,cy+Math.sin(a)*rr-1,2.2,2.2)}
+ if(pts.length<90&&Math.random()<(sp?.9:.25)){
+  const hs=sp&&Math.random()<.7,x=hs?(Math.random()<.5?w*.17:w*.83):Math.random()*w,y=hs?hh*(.3+Math.random()*.2):hh*(.45+Math.random()*.55);
+  pts.push({x,y,vx:(Math.random()-.5)*.5,vy:-(.2+Math.random()*.6),l:1,z:.8+Math.random()*1.6})}
+ for(let i=pts.length-1;i>=0;i--){const q=pts[i];q.x+=q.vx;q.y+=q.vy;q.l-=.006;if(q.l<=0){pts.splice(i,1);continue}pc.fillStyle='rgba(255,255,255,'+(q.l*.7)+')';pc.fillRect(q.x,q.y,q.z,q.z)}
+}
 async function boot(){
  dbg('versão 3 | url com retorno do Google: '+(/access_token|code=/.test(location.hash+location.search)?'sim':'não'));
  try{
