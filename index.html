@@ -195,7 +195,7 @@ kbd{display:none}
 .acard.pw .skip{display:block}
 
 /* Modo de voz — avatar original do Sinjorino */
-#voiceBtn{margin-left:8px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.06);color:#fff;padding:8px 12px;font:inherit;font-size:11px;cursor:pointer;white-space:nowrap}
+#voiceBtn{margin-left:8px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.06);color:#fff;padding:8px 12px;font:inherit;font-size:10px;letter-spacing:.12em;font-weight:600;cursor:pointer;white-space:nowrap;position:relative;z-index:4}
 #voiceBtn:hover{background:#fff;color:#000}
 #voiceStage{position:fixed;inset:0;z-index:30;display:none;background:radial-gradient(ellipse at 50% 38%,#202020 0%,#080808 44%,#000 78%);color:#fff;overflow:hidden}
 #voiceStage.open{display:flex;flex-direction:column;animation:voiceIn .5s both}
@@ -215,13 +215,13 @@ kbd{display:none}
 .avatar .mouth{fill:#050505;stroke:#eee;stroke-width:1.4;transform-origin:250px 210px;transition:transform .08s ease}
 .avatar .arm{fill:url(#metal);stroke:#bcbcbc;stroke-width:1.5;transform-box:fill-box;transform-origin:center;transition:transform .65s cubic-bezier(.2,.8,.2,1)}
 .avatar .hand{fill:#d7d7d7;stroke:#fff;stroke-width:1}
-.avatar.pose-cross .armL{transform:translate(68px,-32px) rotate(-48deg)}
-.avatar.pose-cross .armR{transform:translate(-68px,-32px) rotate(48deg)}
-.avatar.pose-think .armR{transform:translate(-75px,-102px) rotate(28deg)}
-.avatar.pose-think .armL{transform:translate(0px,12px) rotate(8deg)}
-.avatar.pose-open .armL{transform:translate(48px,-42px) rotate(-68deg)}
-.avatar.pose-open .armR{transform:translate(-48px,-42px) rotate(68deg)}
-.avatar.pose-neutral .armL,.avatar.pose-neutral .armR{transform:none}
+.avatar .pose-cross .armL{transform:translate(68px,-32px) rotate(-48deg)}
+.avatar .pose-cross .armR{transform:translate(-68px,-32px) rotate(48deg)}
+.avatar .pose-think .armR{transform:translate(-75px,-102px) rotate(28deg)}
+.avatar .pose-think .armL{transform:translate(0px,12px) rotate(8deg)}
+.avatar .pose-open .armL{transform:translate(48px,-42px) rotate(-68deg)}
+.avatar .pose-open .armR{transform:translate(-48px,-42px) rotate(68deg)}
+.avatar .pose-neutral .armL,.avatar .pose-neutral .armR{transform:none}
 #voiceStage[data-state="listening"] .avatarWrap:after{content:"";position:absolute;inset:3% 8%;border:1px solid transparent;border-radius:48% 48% 42% 42%;background:linear-gradient(#000,#000) padding-box,conic-gradient(from 0deg,transparent 0 55%,#fff 70%,#777 78%,transparent 92%) border-box;opacity:.8;filter:drop-shadow(0 0 10px #fff);animation:edgeOrbit 3s linear infinite;pointer-events:none}
 @keyframes edgeOrbit{to{transform:rotate(360deg)}}
 #voiceStage[data-state="listening"] .avatarWrap{animation:listenFloat 4s ease-in-out infinite}
@@ -263,7 +263,7 @@ kbd{display:none}
 <section class="map" id="map"><canvas id="net"></canvas></section>
 <section class="side">
 <header><svg class="logo" viewBox="0 0 48 48" fill="none" stroke="#fff"><circle class="rg" cx="24" cy="24" r="22.5" stroke-width="1" stroke-dasharray="2 4" opacity=".6"/><circle cx="24" cy="24" r="19" stroke-width="1.4"/><path class="wv" d="M8 28c4 0 4-12 8-12s4 12 8 12 4-12 8-12 4 12 8 12" stroke-width="1.7" stroke-linecap="round"/></svg>
-<div><h1>SINJORINO</h1><p id="sub"></p></div><button class="mem" id="mem">memória · <b id="mc">0</b></button><button id="voiceBtn" type="button">◉ MODO DE VOZ</button><button class="me" id="me" aria-label="Conta">?</button><div class="pop" id="pop"></div></header>
+<div><h1>SINJORINO</h1><p id="sub"></p></div><button class="mem" id="mem">memória · <b id="mc">0</b></button><button id="voiceBtn" type="button">◉ PROJETO PETGA</button><button class="me" id="me" aria-label="Conta">?</button><div class="pop" id="pop"></div></header>
 <div class="hist"><button class="hc new" id="newc">＋ Nova</button><div class="hl" id="hl"></div></div>
 <div class="msgs" id="msgs"></div>
 <div class="barw"><div class="bar"><span class="pr">›</span><input id="in" placeholder="pergunte algo ao Sinjorino…" autocomplete="off" enterkeyhint="send"><kbd>enter</kbd><button id="go" aria-label="Enviar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5v7a3 3 0 0 1-3 3H5M9 10l-4 5 4 5"/></svg></button></div></div>
