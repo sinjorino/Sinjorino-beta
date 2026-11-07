@@ -11,6 +11,17 @@ const first = (envv, list) => [...new Set([envv, ...list].filter(Boolean))];
 module.exports = async (req, res) => {
   const GROQ = process.env.GROQ_API_KEY, GEM = process.env.GEMINI_API_KEY;
   const clean = s => String(s || '').slice(0, 4000);
+  const SB_URL = (process.env.SUPABASE_URL || '').replace(/\/$/, ''), SB_KEY = process.env.SUPABASE_ANON_KEY;
+
+  // Só deixa conversar quem estiver logado: confere o token no Supabase.
+  async function authed() {
+    const t = String(req.headers.authorization || '').replace(/^Bearer\s+/i, '');
+    if (!SB_URL || !SB_KEY || !t) return false;
+    try {
+      const r = await fetch(SB_URL + '/auth/v1/user', { headers: { apikey: SB_KEY, authorization: 'Bearer ' + t } });
+      return r.ok;
+    } catch (e) { return false; }
+  }
 
   // Lista de tentativas: primeiro os modelos do Groq, depois os do Gemini (só dos serviços que têm chave).
   const plan = fast => {
@@ -63,7 +74,7 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'GET') {
-    const info = { status: 'ok', nome: 'Sinjorino', chaves: { groq: !!GROQ, gemini: !!GEM } };
+    const info = { status: 'ok', nome: 'Sinjorino', chaves: { groq: !!GROQ, gemini: !!GEM }, supabase: !!(SB_URL && SB_KEY) };
     if ((GROQ || GEM) && new URL(req.url, 'http://x').searchParams.has('testar')) {
       try {
         const r = await ask(false, 'Responda só com a palavra: ok', [{ role: 'user', content: 'teste' }], 200);
@@ -75,6 +86,7 @@ module.exports = async (req, res) => {
     return res.status(200).json(info);
   }
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido' });
+  if (!(await authed())) return res.status(401).json({ error: 'Entre na sua conta para conversar.' });
   if (!GROQ && !GEM) return res.status(500).json({ error: 'Nenhuma chave configurada. Adicione GROQ_API_KEY na Vercel.' });
   const body = req.body || {};
 
