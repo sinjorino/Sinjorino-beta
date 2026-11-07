@@ -193,64 +193,6 @@ kbd{display:none}
 .skip{display:none;margin:14px auto 0;background:none;border:0;color:#8d8d92;font:400 13px "Nunito",sans-serif;cursor:pointer;transition:color .3s}
 .skip:hover{color:#fff}
 .acard.pw .skip{display:block}
-
-/* Modo de voz — avatar original do Sinjorino */
-#voiceBtn{margin-left:8px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.06);color:#fff;padding:8px 12px;font:inherit;font-size:11px;cursor:pointer;white-space:nowrap}
-#voiceBtn:hover{background:#fff;color:#000}
-#voiceStage{position:fixed;inset:0;z-index:30;display:none;background:radial-gradient(ellipse at 50% 38%,#202020 0%,#080808 44%,#000 78%);color:#fff;overflow:hidden}
-#voiceStage.open{display:flex;flex-direction:column;animation:voiceIn .5s both}
-@keyframes voiceIn{from{opacity:0;filter:blur(10px)}to{opacity:1;filter:blur(0)}}
-.vtop{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;position:relative;z-index:2}
-.vbrand{font:500 11px "IBM Plex Mono",monospace;letter-spacing:.35em;color:#aaa}
-#voiceClose{border:1px solid #444;background:#111;color:#fff;border-radius:50%;width:42px;height:42px;font-size:20px;cursor:pointer}
-.vcenter{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative}
-.vcenter:before{content:"";position:absolute;width:min(72vw,680px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.10),rgba(255,255,255,.025) 42%,transparent 70%);filter:blur(12px);animation:haloBreath 5s ease-in-out infinite}
-@keyframes haloBreath{50%{transform:scale(1.08);opacity:.65}}
-.avatarWrap{width:min(78vw,520px);height:min(74vh,620px);position:relative;z-index:1;display:grid;place-items:center;filter:drop-shadow(0 12px 45px rgba(255,255,255,.10))}
-.avatar{height:100%;width:100%;overflow:visible}
-.avatar .bodyGlow{fill:url(#metal);stroke:#aaa;stroke-width:1.5}
-.avatar .detail{fill:none;stroke:#ddd;stroke-width:1.4;opacity:.65}
-.avatar .faceLine{fill:none;stroke:#f4f4f4;stroke-width:2;stroke-linecap:round}
-.avatar .eye{fill:#fff;filter:drop-shadow(0 0 5px #fff)}
-.avatar .mouth{fill:#050505;stroke:#eee;stroke-width:1.4;transform-origin:250px 210px;transition:transform .08s ease}
-.avatar .arm{fill:url(#metal);stroke:#bcbcbc;stroke-width:1.5;transform-box:fill-box;transform-origin:center;transition:transform .65s cubic-bezier(.2,.8,.2,1)}
-.avatar .hand{fill:#d7d7d7;stroke:#fff;stroke-width:1}
-.avatar .pose-cross .armL{transform:translate(68px,-32px) rotate(-48deg)}
-.avatar .pose-cross .armR{transform:translate(-68px,-32px) rotate(48deg)}
-.avatar .pose-think .armR{transform:translate(-75px,-102px) rotate(28deg)}
-.avatar .pose-think .armL{transform:translate(0px,12px) rotate(8deg)}
-.avatar .pose-open .armL{transform:translate(48px,-42px) rotate(-68deg)}
-.avatar .pose-open .armR{transform:translate(-48px,-42px) rotate(68deg)}
-.avatar .pose-neutral .armL,.avatar .pose-neutral .armR{transform:none}
-#voiceStage[data-state="listening"] .avatarWrap:after{content:"";position:absolute;inset:3% 8%;border:1px solid transparent;border-radius:48% 48% 42% 42%;background:linear-gradient(#000,#000) padding-box,conic-gradient(from 0deg,transparent 0 55%,#fff 70%,#777 78%,transparent 92%) border-box;opacity:.8;filter:drop-shadow(0 0 10px #fff);animation:edgeOrbit 3s linear infinite;pointer-events:none}
-@keyframes edgeOrbit{to{transform:rotate(360deg)}}
-#voiceStage[data-state="listening"] .avatarWrap{animation:listenFloat 4s ease-in-out infinite}
-@keyframes listenFloat{50%{transform:translateY(-8px)}}
-#voiceStage[data-state="speaking"] .avatarWrap{animation:speakFloat 1.6s ease-in-out infinite}
-@keyframes speakFloat{50%{transform:translateY(-5px) scale(1.012)}}
-#voiceStage[data-state="speaking"] .mouth{animation:mouthTalk .22s ease-in-out infinite alternate}
-@keyframes mouthTalk{from{transform:scaleY(.25)}to{transform:scaleY(1.25)}}
-#voiceStage[data-state="idle"] .avatarWrap{animation:idleFloat 6s ease-in-out infinite}
-@keyframes idleFloat{50%{transform:translateY(-5px)}}
-.vbottom{position:relative;z-index:2;text-align:center;padding:8px 20px max(26px,env(safe-area-inset-bottom))}
-#voiceStatus{font:500 12px "IBM Plex Mono",monospace;letter-spacing:.18em;color:#c9c9c9;text-transform:uppercase;min-height:20px}
-#voiceCaption{font:300 15px "Nunito",sans-serif;color:#999;margin:8px auto 18px;max-width:620px;min-height:22px}
-.vcontrols{display:flex;justify-content:center;align-items:center;gap:14px}
-.vcontrol{width:58px;height:58px;border-radius:50%;border:1px solid #555;background:#171717;color:#fff;display:grid;place-items:center;font-size:20px;cursor:pointer;transition:.25s}
-.vcontrol:hover{background:#fff;color:#000;transform:scale(1.06)}
-.vcontrol.main{width:70px;height:70px;background:#fff;color:#000;border:0;box-shadow:0 0 28px rgba(255,255,255,.18)}
-.vcontrol.muted{opacity:.45}
-#voiceStage[data-state="speaking"] .avatar .mouth{transform:scaleY(1)}
-@media(max-width:600px){.vtop{padding:16px}.avatarWrap{width:96vw;height:64vh}.vbottom{padding-bottom:max(24px,env(safe-area-inset-bottom))}.vcontrol{width:52px;height:52px}.vcontrol.main{width:66px;height:66px}}
-@media(prefers-reduced-motion:reduce){#voiceStage *{animation:none!important;transition:none!important}}
-
-/* Avatar 3D original — renderizado em Three.js */
-.avatarWrap{width:min(88vw,650px);height:min(78vh,700px);display:block}
-.avatar3d{display:block;width:100%;height:100%;outline:0}
-
-#voiceStage[data-state="listening"] .avatarWrap:after{content:"";position:absolute;inset:4% 10%;border:1px solid rgba(255,255,255,.12);border-radius:48% 48% 42% 42%;opacity:.8;filter:drop-shadow(0 0 12px #fff);animation:edgeOrbit 3s linear infinite;pointer-events:none}
-#voiceStage[data-state="speaking"] .avatarWrap{animation:none}
-#voiceStage[data-state="idle"] .avatarWrap{animation:none}
 </style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script></head><body>
 <div id="intro"><div class="ig"><div class="rings"><i></i><i></i><i></i></div><svg class="ilogo" viewBox="0 0 48 48" fill="none" stroke="#fff"><circle class="d1" cx="24" cy="24" r="22" pathLength="1"/><path class="d2" pathLength="1" d="M8 28c4 0 4-12 8-12s4 12 8 12 4-12 8-12 4 12 8 12"/></svg><div class="iname" id="iname" aria-label="Sinjorino"></div><div class="ibar"><b></b></div><div class="icount" id="icount"></div></div><div class="iskip">toque para pular</div></div>
 <div id="auth"><div class="acard" id="acard">
@@ -271,22 +213,12 @@ kbd{display:none}
 <section class="map" id="map"><canvas id="net"></canvas></section>
 <section class="side">
 <header><svg class="logo" viewBox="0 0 48 48" fill="none" stroke="#fff"><circle class="rg" cx="24" cy="24" r="22.5" stroke-width="1" stroke-dasharray="2 4" opacity=".6"/><circle cx="24" cy="24" r="19" stroke-width="1.4"/><path class="wv" d="M8 28c4 0 4-12 8-12s4 12 8 12 4-12 8-12 4 12 8 12" stroke-width="1.7" stroke-linecap="round"/></svg>
-<div><h1>SINJORINO</h1><p id="sub"></p></div><button class="mem" id="mem">memória · <b id="mc">0</b></button><button id="voiceBtn" type="button">◉ MODO DE VOZ</button><button class="me" id="me" aria-label="Conta">?</button><div class="pop" id="pop"></div></header>
+<div><h1>SINJORINO</h1><p id="sub"></p></div><button class="mem" id="mem">memória · <b id="mc">0</b></button><button class="me" id="me" aria-label="Conta">?</button><div class="pop" id="pop"></div></header>
 <div class="hist"><button class="hc new" id="newc">＋ Nova</button><div class="hl" id="hl"></div></div>
 <div class="msgs" id="msgs"></div>
 <div class="barw"><div class="bar"><span class="pr">›</span><input id="in" placeholder="pergunte algo ao Sinjorino…" autocomplete="off" enterkeyhint="send"><kbd>enter</kbd><button id="go" aria-label="Enviar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5v7a3 3 0 0 1-3 3H5M9 10l-4 5 4 5"/></svg></button></div></div>
 </section></div>
 <div class="bg"><i class="o1"></i><i class="o2"></i><i class="o3"></i><i class="core"></i></div>
-
-<div id="voiceStage" data-state="idle" aria-hidden="true">
- <div class="vtop"><div class="vbrand">SINJORINO · INTERFACE DE VOZ</div><button id="voiceClose" aria-label="Fechar modo de voz">×</button></div>
- <div class="vcenter">
-  <div class="avatarWrap">
-   <canvas id="sinAvatar3d" class="avatar3d" aria-label="Avatar 3D original da Sinjorino"></canvas>
-  </div>
- </div>
- <div class="vbottom"><div id="voiceStatus">PRONTA</div><div id="voiceCaption">Toque no microfone para conversar.</div><div class="vcontrols"><button class="vcontrol" id="voiceMute" title="Ativar ou pausar microfone">⌁</button><button class="vcontrol main" id="voiceMic" title="Começar a falar">●</button><button class="vcontrol" id="voiceStop" title="Parar áudio">Ⅱ</button></div></div>
-</div>
 <script>
 const $=s=>document.querySelector(s),R=Math.random;let T0=1e12;
 const cv=$('#net'),cx=cv.getContext('2d'),map=$('#map'),DPR=Math.min(devicePixelRatio||1,2);
@@ -349,44 +281,6 @@ map.addEventListener('pointerleave',()=>{mx=my=-999});
 requestAnimationFrame(frame);
 
 const AP=$('#app'),AUTH=$('#auth'),CARD=$('#acard'),pop=$('#pop');
-
-const voiceStage=$('#voiceStage'),avatar=$('#sinAvatar');
-let voiceOpen=false,voiceListening=false,voiceMuted=false,recognition=null,voicePose=0,voiceRun=0;
-const voicePoses=['neutral','cross','think','open'];
-function voiceState(state,label,caption){voiceStage.dataset.state=state;window.dispatchEvent(new CustomEvent('sinjorino-state',{detail:state}));$('#voiceStatus').textContent=label;$('#voiceCaption').textContent=caption||''}
-function openVoice(){voiceOpen=true;voiceStage.classList.add('open');voiceStage.setAttribute('aria-hidden','false');voiceState('idle','PRONTA','Toque no microfone para conversar.')}
-function closeVoice(){stopListening();speechSynthesis.cancel();voiceOpen=false;voiceStage.classList.remove('open');voiceStage.setAttribute('aria-hidden','true');voiceState('idle','PRONTA','')}
-function setPose(i){voicePose=i%voicePoses.length;window.dispatchEvent(new CustomEvent('sinjorino-pose',{detail:voicePoses[voicePose]}));}
-function startListening(){
- const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(!SR){voiceState('idle','MICROFONE INDISPONÍVEL','Use Chrome ou Edge atualizado para reconhecimento de voz.');return}
- if(voiceListening)return;
- try{
-  recognition=new SR();recognition.lang='pt-BR';recognition.interimResults=true;recognition.continuous=false;
-  recognition.onstart=()=>{voiceListening=true;voiceState('listening','OUVINDO','Pode falar. Estou escutando.');$('#voiceMic').classList.add('muted')};
-  recognition.onresult=e=>{let final='',interim='';for(let i=e.resultIndex;i<e.results.length;i++){const s=e.results[i][0].transcript;if(e.results[i].isFinal)final+=s;else interim+=s}$('#voiceCaption').textContent=final||interim||'Estou ouvindo…';if(final.trim()){stopListening();voiceState('idle','PROCESSANDO',final.trim());send(final.trim(),true)}};
-  recognition.onerror=e=>{voiceListening=false;voiceState('idle','NÃO FOI POSSÍVEL OUVIR',e.error==='not-allowed'?'Permita o acesso ao microfone no navegador.':'Tente novamente.');$('#voiceMic').classList.remove('muted')};
-  recognition.onend=()=>{voiceListening=false;$('#voiceMic').classList.remove('muted');if(voiceStage.dataset.state==='listening')voiceState('idle','PRONTA','Toque no microfone para tentar novamente.')};
-  recognition.start();
- }catch(e){voiceState('idle','ERRO NO MICROFONE','Não foi possível iniciar o microfone.')}
-}
-function stopListening(){if(recognition){try{recognition.stop()}catch(e){}recognition=null}voiceListening=false;$('#voiceMic').classList.remove('muted')}
-function speakAnswer(text){
- if(!voiceOpen||voiceMuted||!('speechSynthesis'in window))return;
- speechSynthesis.cancel();setPose(voiceRun++%voicePoses.length);voiceState('speaking','FALANDO',text.slice(0,150));
- const u=new SpeechSynthesisUtterance(text);u.lang='pt-BR';u.rate=1;u.pitch=.92;
- const voices=speechSynthesis.getVoices();const v=voices.find(x=>/^pt-BR/i.test(x.lang))||voices.find(x=>/^pt/i.test(x.lang));if(v)u.voice=v;
- u.onboundary=()=>window.dispatchEvent(new CustomEvent('sinjorino-syllable'));
- u.onend=()=>{voiceState('idle','RESPOSTA CONCLUÍDA','Toque no microfone para continuar.');setPose(0)};
- u.onerror=()=>{voiceState('idle','ÁUDIO INDISPONÍVEL','A resposta também está disponível em texto.')};
- speechSynthesis.speak(u);
-}
-$('#voiceBtn').addEventListener('click',openVoice);$('#voiceClose').addEventListener('click',closeVoice);
-$('#voiceMic').addEventListener('click',()=>voiceListening?stopListening():startListening());
-$('#voiceMute').addEventListener('click',()=>{voiceMuted=!voiceMuted;$('#voiceMute').classList.toggle('muted',voiceMuted);$('#voiceMute').textContent=voiceMuted?'◌':'⌁';if(voiceMuted)speechSynthesis.cancel()});
-$('#voiceStop').addEventListener('click',()=>{stopListening();speechSynthesis.cancel();voiceState('idle','PAUSADO','Toque no microfone para continuar.');setPose(0)});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&voiceOpen)closeVoice()});
-
 let sb=null,user=null,convs=[],cur=null,mode='in',loading=false,introDone=false,booted=false,pendingPw=false,manualPw=false;
 const subIdle=()=>'pronta · '+(LY.reduce((s,L)=>s+L.c,0)/1e6).toFixed(1).replace('.',',')+' milhões de neurônios · '+hist.filter(h=>h.role==='assistant').length+' respostas';
 function setBusy(b){busy=b;lastAct=-2;AP.classList.toggle('busy',b);
@@ -422,7 +316,7 @@ async function learn(t){
  }catch(e){}
 }
 async function type(el,text){const st=Math.max(2,Math.ceil(text.length/110));for(let i=0;i<text.length;i+=st){el.textContent=text.slice(0,i+st);sc();await new Promise(r=>setTimeout(r,16))}el.textContent=text}
-async function send(txt,fromVoice=false){
+async function send(txt){
  if(busy||!txt)return;
  const tm=txt.match(/^ensinar:\s*(.+?)\s*=\s*(.+)$/i);
  add('u',txt);
@@ -436,7 +330,7 @@ async function send(txt,fromVoice=false){
  try{
   let m=hist.slice(-14);while(m.length&&m[0].role!=='user')m.shift();
   const d=await api({messages:m,facts});
-  await type(el,d.text);if(fromVoice||voiceOpen)speakAnswer(d.text);hist.push({role:'assistant',content:d.text});persist([{role:'user',content:txt},{role:'assistant',content:d.text}]);learn(txt);
+  await type(el,d.text);hist.push({role:'assistant',content:d.text});persist([{role:'user',content:txt},{role:'assistant',content:d.text}]);learn(txt);
   outK=Math.abs([...d.text].reduce((a,c)=>(a*31+c.charCodeAt(0))|0,7))%11;outG=1;nodes[nodes.length-11+outK].g=1;
  }catch(e){
   hist.pop();el.textContent=(e&&e.message)||'Não consegui responder agora. Tente novamente em instantes.';
@@ -522,107 +416,4 @@ boot();
  (function tick(){const p=Math.min(1,Math.max(0,(performance.now()-t0-800)/2200));cnt.textContent=fmt(tot*(1-Math.pow(1-p,3)))+' neurônios';if(!done&&p<1)requestAnimationFrame(tick)})();
  setTimeout(enter,3500);IN.addEventListener('pointerdown',enter);addEventListener('keydown',enter);
 })();
-</script>
-<script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-const canvas=document.getElementById('sinAvatar3d');
-if(canvas){
- const scene=new THREE.Scene();scene.background=null;
- const camera=new THREE.PerspectiveCamera(32,1,.1,100);camera.position.set(0,1.45,8.6);
- const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
- renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;
- renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.35;
- scene.add(new THREE.HemisphereLight(0xffffff,0x171717,2.0));
- const key=new THREE.DirectionalLight(0xffffff,3.2);key.position.set(-3,5,6);scene.add(key);
- const rim=new THREE.PointLight(0xd9e5ff,32,12);rim.position.set(3,2,1);scene.add(rim);
- const low=new THREE.PointLight(0xffffff,12,10);low.position.set(-3,-2,3);scene.add(low);
- const silver=new THREE.MeshPhysicalMaterial({color:0xbfc3c9,metalness:.88,roughness:.24,clearcoat:1,clearcoatRoughness:.12});
- const bright=new THREE.MeshPhysicalMaterial({color:0xf0f1f4,metalness:.72,roughness:.18,emissive:0x17191d,clearcoat:1});
- const dark=new THREE.MeshStandardMaterial({color:0x08090c,metalness:.65,roughness:.2});
- const glow=new THREE.MeshBasicMaterial({color:0xffffff});
- const root=new THREE.Group();scene.add(root);
- function ell(parent,geo,mat,pos,scale){const m=new THREE.Mesh(geo,mat);m.position.set(...pos);m.scale.set(...scale);parent.add(m);return m}
- function sphere(parent,pos,scale,mat=silver){return ell(parent,new THREE.SphereGeometry(1,40,32),mat,pos,scale)}
- function tube(parent,pts,r,mat){const c=new THREE.CatmullRomCurve3(pts.map(p=>new THREE.Vector3(...p)));const m=new THREE.Mesh(new THREE.TubeGeometry(c,48,r,10,false),mat);parent.add(m);return m}
- // sculptural torso and neck
- const torso=new THREE.Group();root.add(torso);
- ell(torso,new THREE.SphereGeometry(1,48,36),silver,[0,-1.1,0],[1.18,1.12,.48]);
- ell(torso,new THREE.CylinderGeometry(.32,.42,.8,48),bright,[0,-.15,0],[1,1,.9]);
- // clavicle highlights
- tube(torso,[[-.85,-.55,.37],[-.48,-.35,.48],[0,-.43,.51],[.48,-.35,.48],[.85,-.55,.37]],.018,bright);
- // head, refined oval/jaw silhouette
- const head=new THREE.Group();head.position.set(0,1.18,0);root.add(head);
- sphere(head,[0,.12,0],[.72,.98,.57],silver);
- sphere(head,[0,-.28,.12],[.58,.59,.49],bright);
- // forehead / temples, cheek planes
- sphere(head,[-.48,-.08,.08],[.23,.38,.36],silver);sphere(head,[.48,-.08,.08],[.23,.38,.36],silver);
- // hair cap and flowing sculpted locks
- const hairMat=new THREE.MeshPhysicalMaterial({color:0x555960,metalness:.9,roughness:.22,clearcoat:1});
- sphere(head,[0,.68,-.02],[.76,.48,.61],hairMat);
- for(let side of [-1,1]){
-  tube(head,[[side*.52,.72,-.03],[side*.7,.25,-.02],[side*.68,-.38,-.02],[side*.58,-.88,-.04]],.095,hairMat);
-  for(let j=0;j<4;j++){const x=side*(.38+j*.075);tube(head,[[x,.9,.04],[x+side*.1,.45,.18],[x+side*.08,-.05,.18],[x+side*.12,-.62,.08]],.012,bright)}
- }
- // facial details
- for(let x of [-.28,.28]){
-  sphere(head,[x,.08,.49],[.135,.055,.045],dark);
-  sphere(head,[x,.08,.535],[.052,.022,.018],glow);
-  tube(head,[[x-.15,.17,.48],[x,.22,.51],[x+.15,.17,.48]],.018,bright);
- }
- // nose bridge + nose tip
- ell(head,new THREE.ConeGeometry(.075,.34,24),bright,[0,-.08,.53],[.75,1,.7]);
- sphere(head,[0,-.26,.57],[.09,.055,.08],bright);
- // mouth as dark opening with luminous lips, animated scale
- const mouth=new THREE.Group();mouth.position.set(0,-.43,.555);head.add(mouth);
- const mouthOpen=ell(mouth,new THREE.SphereGeometry(1,32,20),dark,[0,0,0],[.12,.018,.025]);
- tube(head,[[-.15,-.42,.55],[-.07,-.4,.58],[0,-.415,.59],[.07,-.4,.58],[.15,-.42,.55]],.012,bright);
- // ear details
- for(let side of [-1,1]){sphere(head,[side*.7,-.08,0],[.11,.2,.12],silver);sphere(head,[side*.735,-.08,.09],[.035,.09,.035],dark)}
- // articulated shoulders and arms
- const arms=[];
- for(let side of [-1,1]){
-  const shoulder=new THREE.Group();shoulder.position.set(side*.92,-.55,0);torso.add(shoulder);
-  sphere(shoulder,[0,0,0],[.28,.3,.3],bright);
-  const upper=new THREE.Group();shoulder.add(upper);
-  ell(upper,new THREE.CapsuleGeometry(.19,.62,8,20),silver,[side*.06,-.48,0],[1,1,.9]);
-  const elbow=new THREE.Group();elbow.position.set(side*.06,-.88,0);upper.add(elbow);
-  sphere(elbow,[0,0,0],[.2,.2,.2],bright);
-  ell(elbow,new THREE.CapsuleGeometry(.16,.62,8,20),silver,[side*-.02,-.42,.02],[1,1,.9]);
-  sphere(elbow,[side*-.02,-.82,.04],[.19,.16,.19],bright);
-  arms.push({side,shoulder,upper,elbow});
- }
- // luminous orbit ring, visible while listening
- const ring=new THREE.Mesh(new THREE.TorusGeometry(1.48,.012,8,180),new THREE.MeshBasicMaterial({color:0xe7edf7,transparent:true,opacity:.0}));
- ring.rotation.x=Math.PI/2.3;ring.position.y=.25;root.add(ring);
- const particles=new THREE.Group();root.add(particles);
- for(let i=0;i<85;i++){const a=i/85*Math.PI*2;const r=1.5+(Math.sin(i*7)*.06);const dot=new THREE.Mesh(new THREE.SphereGeometry(.012+(i%4)*.003,8,8),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.4}));dot.position.set(Math.cos(a)*r,Math.sin(a)*r*.78,.08);particles.add(dot)}
- let state='idle',pose='neutral',talkPulse=0,last=performance.now();
- window.addEventListener('sinjorino-state',e=>{state=e.detail;});
- window.addEventListener('sinjorino-pose',e=>{pose=e.detail;});
- window.addEventListener('sinjorino-syllable',()=>{talkPulse=.9;});
- function resize(){const w=canvas.clientWidth||600,h=canvas.clientHeight||600;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
- new ResizeObserver(resize).observe(canvas);resize();
- function animate(now){
-  requestAnimationFrame(animate);const t=now*.001,dt=Math.min(.05,(now-last)*.001);last=now;
-  root.position.y=Math.sin(t*1.1)*.035+(state==='listening'?Math.sin(t*2)*.018:0);
-  head.rotation.y=Math.sin(t*.42)*.055;head.rotation.x=Math.sin(t*.7)*.018;
-  head.rotation.z=Math.sin(t*.31)*.012;
-  torso.rotation.y=Math.sin(t*.3)*.025;
-  const targets={
-   neutral:[[.08,.12],[ -.08,.12]],
-   cross:[[.95,-1.0],[-.95,-1.0]],
-   think:[[.12,-.18],[-.9,-.55]],
-   open:[[-.9,.25],[.9,.25]]
-  }[pose]||[[.08,.12],[-.08,.12]];
-  arms.forEach((a,i)=>{const [z,x]=targets[i];a.shoulder.rotation.z=THREE.MathUtils.damp(a.shoulder.rotation.z,z,3.5,dt);a.shoulder.rotation.x=THREE.MathUtils.damp(a.shoulder.rotation.x,x,3.5,dt);a.upper.rotation.z=THREE.MathUtils.damp(a.upper.rotation.z,pose==='cross'?-a.side*.8:pose==='think'?.4*a.side:0,3,dt);a.elbow.rotation.z=THREE.MathUtils.damp(a.elbow.rotation.z,pose==='cross'?a.side*1.35:pose==='think'?-1.1*a.side:pose==='open'?-a.side*.45:0,3,dt)});
-  const talking=state==='speaking';talkPulse=THREE.MathUtils.damp(talkPulse,talking?(0.22+Math.abs(Math.sin(t*17))*.7):0, talking?18:8,dt);
-  mouthOpen.scale.y=.012+talkPulse*.09;mouthOpen.scale.x=.12+talkPulse*.025;
-  ring.material.opacity=state==='listening'?.5+.25*Math.sin(t*5):state==='speaking'?.18:0;
-  ring.rotation.z=t*(state==='listening'?1.2:.18);ring.scale.setScalar(state==='listening'?1+Math.sin(t*3)*.025:1);
-  particles.children.forEach((p,i)=>{const a=i/particles.children.length*Math.PI*2+t*(state==='listening'?.9:.12);const r=1.5+Math.sin(i*7+t*2)*.06;p.position.set(Math.cos(a)*r,Math.sin(a)*r*.78,.08);p.material.opacity=state==='listening'?.25+.65*(.5+.5*Math.sin(i+t*8)):.16});
-  renderer.render(scene,camera);
- }
- requestAnimationFrame(animate);
-}
-</script>
-</body></html>
+</script></body></html>
