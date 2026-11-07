@@ -281,7 +281,7 @@ map.addEventListener('pointerleave',()=>{mx=my=-999});
 requestAnimationFrame(frame);
 
 const AP=$('#app'),AUTH=$('#auth'),CARD=$('#acard'),pop=$('#pop');
-let sb=null,user=null,convs=[],cur=null,mode='in',loading=false,introDone=false,booted=false,pendingPw=false;
+let sb=null,user=null,convs=[],cur=null,mode='in',loading=false,introDone=false,booted=false,pendingPw=false,manualPw=false;
 const subIdle=()=>'pronta · '+(LY.reduce((s,L)=>s+L.c,0)/1e6).toFixed(1).replace('.',',')+' milhões de neurônios · '+hist.filter(h=>h.role==='assistant').length+' respostas';
 function setBusy(b){busy=b;lastAct=-2;AP.classList.toggle('busy',b);
  if(b){for(let i=0;i<14;i++)spawn(nodes[Math.floor(R()*LY[0].n)])}else{$('#sub').textContent=subIdle();nodes.forEach(n=>n.g=Math.max(n.g,.7))}}
@@ -345,7 +345,7 @@ $('#mem').onclick=()=>togglePop('m',()=>{
  if(!facts.length){pop.textContent='Ainda não guardei nada sobre você.';return}
  facts.forEach(f=>{const d=document.createElement('div');d.textContent=f;pop.append(d)});
  popBtn('esquecer tudo',async()=>{await sb.from('memorias').delete().gt('id',-1);facts=[];drawMem();pop.classList.remove('on')})});
-$('#me').onclick=()=>togglePop('u',()=>{const d=document.createElement('div');d.textContent=nome();pop.append(d);if(user&&user.email){const e=document.createElement('div');e.style.color='#8a8a8a';e.textContent=user.email;pop.append(e)}popBtn('sair',()=>{pop.classList.remove('on');sb.auth.signOut()})});
+$('#me').onclick=()=>togglePop('u',()=>{const d=document.createElement('div');d.textContent=nome();pop.append(d);if(user&&user.email){const e=document.createElement('div');e.style.color='#8a8a8a';e.textContent=user.email;pop.append(e)}if(user&&semSenha(user))popBtn('definir senha',()=>{pop.classList.remove('on');manualPw=true;pendingPw=true;setMode('pw');$('#askip').textContent='voltar';AUTH.classList.add('show')});popBtn('sair',()=>{pop.classList.remove('on');sb.auth.signOut()})});
 
 // ----- login / criar conta -----
 const aerr=t=>{const e=$('#aerr');e.textContent=t;e.classList.toggle('on',!!t);if(t){CARD.classList.remove('shake');void CARD.offsetWidth;CARD.classList.add('shake')}};
@@ -356,7 +356,7 @@ async function submit(){
  if(loading||!sb)return;
  if(mode==='pw'){const pw=$('#ap').value;if(pw.length<6)return aerr('A senha precisa ter pelo menos 6 caracteres.');if(pw!==$('#ac').value)return aerr('As senhas não são iguais.');
   loading=true;$('#ago').classList.add('load');aerr('');
-  try{const r=await sb.auth.updateUser({password:pw,data:{senha_ok:true}});if(r.error)throw r.error;if(r.data&&r.data.user)user=r.data.user;pendingPw=false;await finish()}catch(err){aerr(tr(err.message||String(err)))}
+  try{const r=await sb.auth.updateUser({password:pw,data:{senha_ok:true,senha_def:true}});if(r.error)throw r.error;if(r.data&&r.data.user)user=r.data.user;pendingPw=false;if(manualPw){manualPw=false;closeAuth();setMode('in')}else await finish()}catch(err){aerr(tr(err.message||String(err)))}
   loading=false;$('#ago').classList.remove('load');return}
  const u=$('#au').value.trim(),e=$('#ae').value.trim(),p=$('#ap').value;
  if(!e||!p)return aerr('Preencha e-mail e senha.');
@@ -374,21 +374,30 @@ $('#ago').onclick=submit;
 $('#agoogle').onclick=async()=>{if(!sb)return aerr('O servidor ainda não está conectado ao Supabase. Veja o LEIA-ME.');const r=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin}});if(r.error)aerr(tr(r.error.message))};
 function route(){if(!introDone||!booted)return;if(T0>1e11)T0=performance.now();
  if(user&&!pendingPw){AP.classList.remove('peek');AP.classList.add('go')}else{AP.classList.add('peek');AUTH.classList.add('show')}}
-const needsPw=u=>{const ids=(u.identities||[]).map(i=>i.provider),m=u.user_metadata||{};return ids.includes('google')&&!ids.includes('email')&&!m.senha_ok};
-async function finish(){$('#me').textContent=(nome()[0]||'?').toUpperCase();await loadAll();AUTH.classList.add('out');setTimeout(()=>AUTH.classList.remove('show','out'),800);route()}
-async function enterApp(u){if(user&&user.id===u.id)return;user=u;if(needsPw(u)){pendingPw=true;setMode('pw');route();return}await finish()}
-$('#askip').onclick=async()=>{if(!sb)return;try{await sb.auth.updateUser({data:{senha_ok:true}})}catch(e){}pendingPw=false;await finish()};
-function leave(){user=null;pendingPw=false;cur=null;hist=[];facts=[];convs=[];pop.classList.remove('on');AP.classList.remove('go','chatting');$('#msgs').textContent='';drawMem();drawHist();['au','ae','ap','ac'].forEach(i=>$('#'+i).value='');setMode('in');route()}
+const provs=u=>[...new Set([...((u.app_metadata&&u.app_metadata.providers)||[]),...((u.identities||[]).map(i=>i.provider))])];
+const soGoogle=u=>{const p=provs(u);return p.includes('google')&&!p.includes('email')};
+const needsPw=u=>soGoogle(u)&&!(u.user_metadata&&u.user_metadata.senha_ok);
+const semSenha=u=>soGoogle(u)&&!(u.user_metadata&&u.user_metadata.senha_def);
+const closeAuth=()=>{AUTH.classList.add('out');setTimeout(()=>AUTH.classList.remove('show','out'),800)};
+const DBG=/debug/.test(location.search);let dbgEl=null;
+function dbg(t){if(!DBG)return;if(!dbgEl){dbgEl=document.createElement('pre');dbgEl.style.cssText='position:fixed;left:8px;bottom:8px;z-index:99;max-width:92vw;max-height:40vh;overflow:auto;margin:0;padding:8px 10px;font:11px/1.5 monospace;color:#fff;background:rgba(0,0,0,.85);border:1px solid #555;border-radius:8px;white-space:pre-wrap';document.body.append(dbgEl)}dbgEl.textContent+=t+'\n'}
+async function finish(){$('#me').textContent=(nome()[0]||'?').toUpperCase();await loadAll();closeAuth();route()}
+async function enterApp(u){if(user&&user.id===u.id)return;user=u;dbg('login: '+(u.email||'?')+' | provedores: '+provs(u).join(',')+' | pede senha: '+needsPw(u));if(needsPw(u)){pendingPw=true;manualPw=false;setMode('pw');$('#askip').textContent='agora não';route();return}await finish()}
+$('#askip').onclick=async()=>{if(!sb)return;if(manualPw){manualPw=false;pendingPw=false;closeAuth();setMode('in');return}try{await sb.auth.updateUser({data:{senha_ok:true}})}catch(e){}pendingPw=false;await finish()};
+function leave(){user=null;pendingPw=false;manualPw=false;cur=null;hist=[];facts=[];convs=[];pop.classList.remove('on');AP.classList.remove('go','chatting');$('#msgs').textContent='';drawMem();drawHist();['au','ae','ap','ac'].forEach(i=>$('#'+i).value='');setMode('in');route()}
 async function boot(){
+ dbg('versão 3 | url com retorno do Google: '+(/access_token|code=/.test(location.hash+location.search)?'sim':'não'));
  try{
   if(!window.supabase)throw new Error('lib');
   const c=await (await fetch('/api/config')).json();
   if(!c.url||!c.key)throw new Error('cfg');
+  dbg('config do servidor: ok');
   sb=supabase.createClient(c.url,c.key);
-  sb.auth.onAuthStateChange((ev,s)=>{if(ev==='SIGNED_OUT'&&user)leave();if(ev==='SIGNED_IN'&&s&&!user&&booted)setTimeout(()=>enterApp(s.user),0)});
+  sb.auth.onAuthStateChange((ev,s)=>{dbg('evento: '+ev);if(ev==='SIGNED_OUT'&&user)leave();if(ev==='SIGNED_IN'&&s&&!user&&booted)setTimeout(()=>enterApp(s.user),0)});
   const {data}=await sb.auth.getSession();
+  dbg('sessão: '+(data.session?'sim':'não'));
   if(data.session)await enterApp(data.session.user);
- }catch(e){aerr('O servidor ainda não está conectado ao Supabase. Veja o LEIA-ME.')}
+ }catch(e){const m=(e&&e.message)||String(e);dbg('erro: '+m);aerr(m==='cfg'||m==='lib'?'O servidor ainda não está conectado ao Supabase. Veja o LEIA-ME.':'Algo falhou ao entrar: '+m)}
  booted=true;route();
 }
 boot();
