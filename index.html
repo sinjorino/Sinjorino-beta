@@ -1,4 +1,3 @@
-
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="theme-color" content="#000000"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"><title>Sinjorino</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
@@ -409,7 +408,11 @@ async function send(txt){
  const el=add('a','');el.classList.add('live');setBusy(true);
  try{
   let m=hist.slice(-14);while(m.length&&m[0].role!=='user')m.shift();
-  const VP='(Contexto: o navegador vai ler a sua resposta em voz alta com um sintetizador de voz, então escreva apenas o texto que deve ser falado, sem precisar gerar áudio. Você é a Ava, a voz e o rosto do Sinjorino; se perguntarem seu nome, diga Ava. Responda em até 3 frases curtas, em linguagem falada, calma e elegante, sem listas, sem símbolos e sem emojis.)\n\nMensagem da pessoa: ';const m2=voiceOn?m.map((x,i)=>i===m.length-1?{...x,content:VP+x.content}:x):m;const d=await api({messages:m2,facts});
+  const VP='(Você é a Ava, uma presença calma e elegante do Sinjorino; se perguntarem seu nome, diga Ava. Responda em até 3 frases curtas, em linguagem de conversa, sem listas, símbolos nem emojis.)\n\nMensagem da pessoa: ';
+  const pre=q=>voiceOn?m.map((x,i)=>i===m.length-1?{...x,content:q+x.content}:x):m,REF=/n[ãa]o (consigo|posso|tenho).{0,60}(áudio|audio|voz|falar)/i;
+  let d=await api({messages:pre(VP),facts});
+  if(voiceOn&&REF.test(d.text))d=await api({messages:pre('Responda em texto, em até 3 frases curtas, à mensagem a seguir. Mensagem: '),facts});
+  if(voiceOn&&REF.test(d.text))d={text:'Estou aqui, pode falar. Eu respondo.'};
   if(voiceOn)speak(d.text);await type(el,d.text);hist.push({role:'assistant',content:d.text});persist([{role:'user',content:txt},{role:'assistant',content:d.text}]);learn(txt);
   outK=Math.abs([...d.text].reduce((a,c)=>(a*31+c.charCodeAt(0))|0,7))%11;outG=1;nodes[nodes.length-11+outK].g=1;
  }catch(e){
@@ -481,8 +484,8 @@ function speak(text){
  const parts=t.match(/[^.!?;:]+[.!?;:]*\s*/g)||[t],chunks=[];let cur='';
  for(const p of parts){if((cur+p).length>180&&cur){chunks.push(cur);cur=p}else cur+=p}if(cur)chunks.push(cur);
  const id=++sayId;vset('speak');
- chunks.forEach((c,i)=>{const u=new SpeechSynthesisUtterance(c);u.lang='pt-BR';if(vVoice)u.voice=vVoice;u.rate=.97;u.pitch=1.06;u.onboundary=()=>{kick=1};
-  u.onend=()=>{if(id===sayId&&i===chunks.length-1){if(voiceOn)setTimeout(listen,350);else vset('idle')}};TTS.speak(u)})
+ setTimeout(()=>chunks.forEach((c,i)=>{const u=new SpeechSynthesisUtterance(c);u.lang='pt-BR';if(vVoice)u.voice=vVoice;u.rate=.97;u.pitch=1.06;u.onboundary=()=>{kick=1};
+  u.onend=()=>{if(id===sayId&&i===chunks.length-1){if(voiceOn)setTimeout(listen,350);else vset('idle')}};TTS.speak(u)}),80)
 }
 function listen(){
  if(!voiceOn||!SR||busy)return;
@@ -599,7 +602,7 @@ try{
 }catch(e){av3f=null;console.warn('Ava 3D indisponível, usando o desenho 2D',e)}
 })();
 async function boot(){
- dbg('versão 3 | url com retorno do Google: '+(/access_token|code=/.test(location.hash+location.search)?'sim':'não'));
+ dbg('versão 5 (aviso de voz novo) | url com retorno do Google: '+(/access_token|code=/.test(location.hash+location.search)?'sim':'não'));
  try{
   if(!window.supabase)throw new Error('lib');
   const c=await (await fetch('/api/config')).json();
