@@ -408,7 +408,7 @@ async function send(txt){
  const el=add('a','');el.classList.add('live');setBusy(true);
  try{
   let m=hist.slice(-14);while(m.length&&m[0].role!=='user')m.shift();
-  const m2=voiceOn?m.map((x,i)=>i===m.length-1?{...x,content:x.content+'\n\n[modo voz: você é a Ava, a voz e o rosto do Sinjorino; se perguntarem seu nome, diga Ava. Responda em até 3 frases curtas, em linguagem falada, calma e elegante, sem listas, sem símbolos e sem emojis]'}:x):m;const d=await api({messages:m2,facts});
+  const VP='(Contexto: o navegador vai ler a sua resposta em voz alta com um sintetizador de voz, então escreva apenas o texto que deve ser falado, sem precisar gerar áudio. Você é a Ava, a voz e o rosto do Sinjorino; se perguntarem seu nome, diga Ava. Responda em até 3 frases curtas, em linguagem falada, calma e elegante, sem listas, sem símbolos e sem emojis.)\n\nMensagem da pessoa: ';const m2=voiceOn?m.map((x,i)=>i===m.length-1?{...x,content:VP+x.content}:x):m;const d=await api({messages:m2,facts});
   if(voiceOn)speak(d.text);await type(el,d.text);hist.push({role:'assistant',content:d.text});persist([{role:'user',content:txt},{role:'assistant',content:d.text}]);learn(txt);
   outK=Math.abs([...d.text].reduce((a,c)=>(a*31+c.charCodeAt(0))|0,7))%11;outG=1;nodes[nodes.length-11+outK].g=1;
  }catch(e){
