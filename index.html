@@ -242,7 +242,7 @@ kbd{display:none}
 .av.d3{background:radial-gradient(ellipse at 50% 40%,rgba(255,255,255,.1),transparent 62%)}
 .av.d3 #av3{display:block}
 .av.d3 .avs{display:none}
-</style><script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script></head><body>
+</style><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script></head><body>
 <div id="intro"><div class="ig"><div class="rings"><i></i><i></i><i></i></div><svg class="ilogo" viewBox="0 0 48 48" fill="none" stroke="#fff"><circle class="d1" cx="24" cy="24" r="22" pathLength="1"/><path class="d2" pathLength="1" d="M8 28c4 0 4-12 8-12s4 12 8 12 4-12 8-12 4 12 8 12"/></svg><div class="iname" id="iname" aria-label="Sinjorino"></div><div class="ibar"><b></b></div><div class="icount" id="icount"></div></div><div class="iskip">toque para pular</div></div>
 <div id="voz" data-s="idle"><button class="vx" id="vx" aria-label="Fechar">×</button>
 <div class="vname">AVA</div>
@@ -538,10 +538,9 @@ function avLoop(t){
  for(let i=pts.length-1;i>=0;i--){const q=pts[i];q.x+=q.vx;q.y+=q.vy;q.l-=.006;if(q.l<=0){pts.splice(i,1);continue}pc.fillStyle='rgba(255,255,255,'+(q.l*.7)+')';pc.fillRect(q.x,q.y,q.z,q.z)}
 }
 let av3f=null;
-(function(){
+(async function(){
 try{
- if(!window.THREE)return;
- const T=THREE,cvs=$('#av3'),ren=new T.WebGLRenderer({canvas:cvs,antialias:true,alpha:true});
+ const T=await import('three'),cvs=$('#av3'),ren=new T.WebGLRenderer({canvas:cvs,antialias:true,alpha:true});
  ren.setPixelRatio(Math.min(devicePixelRatio||1,2));ren.setClearColor(0,0);
  const scn=new T.Scene(),cam=new T.PerspectiveCamera(34,.8,.1,50);cam.position.set(0,-.4,6.6);cam.lookAt(0,-.4,0);
  const U={uT:{value:0},uL:{value:new T.Vector3(.8,.4,.6)}};
@@ -581,12 +580,57 @@ try{
  const arms=[-1,1].map(s=>{const r=rel(s);return{s,up:mkSeg(.105,.085),fo:mkSeg(.085,.065),el:mkBall(.09),wr:mkBall(.07),hand:mkHand(s),S:new T.Vector3(s*.72,-.5,0),t:new T.Vector3(...r.t),p:new T.Vector3(...r.p),c:r.c,w:0}});
  const NAMES=['cruzados','boca','abertos','peito','cabeca','juntas'];
  let pose='rel',nextAt=0,side=1,last='';
+ // ---- modelo 3D pronto (Mixamo): usado se os arquivos existirem na pasta /ava ----
+ let ext=false,mixer=null,idleA=null,thinkA=null,talks=[],curA=null,nxt=0,headB=null,feats=[],lowM=null,cavM=null,lowOff=null,downL=null,iq0=null,wm2=null;
+ const hp=new T.Vector3(),hq=new T.Quaternion(),hs=new T.Vector3(),qf=new T.Quaternion();
+ const setAct=a=>{if(!a||a===curA)return;a.reset().setEffectiveWeight(1).fadeIn(.6).play();if(curA)curA.fadeOut(.6);curA=a};
+ const extFrame=(t,mouth,sp,th,dt)=>{
+  if(sp){if(t>nxt){const c=talks.length?talks:[idleA];let a,k=0;do{a=c[Math.floor(Math.random()*c.length)];k++}while(a===curA&&c.length>1&&k<8);setAct(a);nxt=t+3200+Math.random()*3000}}
+  else{nxt=0;setAct(th&&thinkA?thinkA:idleA)}
+  mixer.update(dt);scn.updateMatrixWorld(true);
+  headB.matrixWorld.decompose(hp,hq,hs);qf.copy(hq).multiply(iq0);
+  feats.forEach(f=>{f.m.position.copy(f.o).applyQuaternion(hq).add(hp);f.m.quaternion.copy(qf)});
+  lowM.position.copy(lowOff).addScaledVector(downL,mouth*.014).applyQuaternion(hq).add(hp);lowM.quaternion.copy(qf);
+  cavM.scale.y=.001+mouth*.012;wm2.opacity=.95*(1-.92*U.uT.value);
+  ren.render(scn,cam)};
+ try{
+  const {FBXLoader}=await import('three/addons/loaders/FBXLoader.js'),ld=new FBXLoader();
+  const clipOf=async n=>{try{const g=await ld.loadAsync('ava/'+n+'.fbx');const c=g.animations&&g.animations[0];if(c)c.name=n;return c||null}catch(e){return null}};
+  const [obj,cI,cT,...cS]=await Promise.all([ld.loadAsync('ava/personagem.fbx'),...['parado','pensando','fala1','fala2','fala3','fala4','fala5','fala6','fala7','fala8'].map(clipOf)]);
+  if(!cI)throw new Error('falta ava/parado.fbx');
+  const matExt=new T.ShaderMaterial({uniforms:U,side:T.DoubleSide,fragmentShader:mat.fragmentShader,
+   vertexShader:'varying vec3 vN;varying vec3 vV;\n#include <common>\n#include <skinning_pars_vertex>\nvoid main(){\n#include <beginnormal_vertex>\n#include <skinbase_vertex>\n#include <skinnormal_vertex>\n#include <begin_vertex>\n#include <skinning_vertex>\nvN=normalize(normalMatrix*objectNormal);vec4 mv=modelViewMatrix*vec4(transformed,1.);vV=-mv.xyz;gl_Position=projectionMatrix*mv;}'});
+  obj.traverse(o=>{if(o.isMesh){o.material=matExt;o.frustumCulled=false}});
+  obj.updateMatrixWorld(true);
+  let b=new T.Box3().setFromObject(obj);obj.scale.multiplyScalar(1.8/Math.max(b.max.y-b.min.y,1e-3));obj.updateMatrixWorld(true);
+  b=new T.Box3().setFromObject(obj);obj.position.x-=(b.min.x+b.max.x)/2;obj.position.y-=b.min.y;obj.position.z-=(b.min.z+b.max.z)/2;obj.updateMatrixWorld(true);
+  headB=obj.getObjectByName('mixamorigHead');if(!headB)throw new Error('sem o osso mixamorigHead');
+  let top=0,front=-9,mnx=9,mxx=-9;const v=new T.Vector3();
+  obj.traverse(o=>{if(!o.isSkinnedMesh)return;const pa=o.geometry.attributes.position;for(let i=0;i<pa.count;i++){v.fromBufferAttribute(pa,i).applyMatrix4(o.matrixWorld);if(v.y>1.62){top=Math.max(top,v.y);front=Math.max(front,v.z);mnx=Math.min(mnx,v.x);mxx=Math.max(mxx,v.x)}}});
+  if(top<1)throw new Error('cabeça não encontrada');
+  const hw=Math.max(mxx-mnx,.12),hH=.23,eyeY=top-.5*hH,mouthY=top-.8*hH,fz=front-.004,cxh=(mnx+mxx)/2;
+  console.info('Ava 3D (Mixamo): cabeça',{top,front,largura:hw});
+  headB.matrixWorld.decompose(hp,hq,hs);iq0=hq.clone().invert();const hp0=hp.clone();
+  wm2=new T.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.95,depthTest:false});
+  const blk=new T.MeshBasicMaterial({color:0,depthTest:false});
+  const mk=(sx,sy,sz,x,y,z,mt,ro)=>{const m=new T.Mesh(new T.SphereGeometry(1,14,8),mt);m.scale.set(sx,sy,sz);m.renderOrder=ro;scn.add(m);return{m,o:new T.Vector3(x,y,z).sub(hp0).applyQuaternion(iq0)}};
+  const cav2=mk(hw*.12,.001,.005,cxh,mouthY,fz-.001,blk,11),low=mk(hw*.13,.008,.006,cxh,mouthY-.007,fz,wm2,12);
+  feats=[mk(hw*.1,.005,.004,cxh-hw*.2,eyeY,fz,wm2,10),mk(hw*.1,.005,.004,cxh+hw*.2,eyeY,fz,wm2,10),mk(hw*.14,.007,.006,cxh,mouthY+.006,fz,wm2,12),cav2];
+  cavM=cav2.m;lowM=low.m;lowOff=low.o;downL=new T.Vector3(0,-1,0).applyQuaternion(iq0);
+  mixer=new T.AnimationMixer(obj);
+  const act=c=>{const a=mixer.clipAction(c);a.setLoop(T.LoopRepeat,Infinity);return a};
+  idleA=act(cI);thinkA=cT?act(cT):null;talks=cS.filter(Boolean).map(act);
+  scn.add(obj);root.visible=false;
+  cam.position.set(0,1.37,1.95);cam.lookAt(0,1.37,0);
+  ext=true;
+ }catch(e){ext=false;console.info('Ava 3D: usando o modelo feito por código (',e&&e.message,')')}
  av3f=function(t,mouth,state,dt){
   const w=cvs.clientWidth,h=cvs.clientHeight;if(!w||!h)return;
   if(cvs.width!==Math.round(w*ren.getPixelRatio())){ren.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
   const sp=state==='speak',th=state==='think';
   U.uT.value+=((th?1:0)-U.uT.value)*Math.min(1,dt*3);
   const ang=t*(th?.0011:.0006);U.uL.value.set(Math.cos(ang)*.95,.35+.3*Math.sin(ang*.7),.55+.45*Math.sin(ang));
+  if(ext){extFrame(t,mouth,sp,th,dt);return}
   if(sp){if(t>nextAt){let n;do{n=NAMES[Math.floor(Math.random()*NAMES.length)]}while(n===last);last=n;pose=n;side=Math.random()<.5?-1:1;nextAt=t+2600+Math.random()*2600}}else{pose='rel';nextAt=0}
   const k=1-Math.exp(-dt*3.2);
   arms.forEach(a=>{const q=spec(a.s,pose,side);
