@@ -1,6 +1,6 @@
 {
-  "personagem": "ava/Y Bot.fbx",
-  "parado": "ava/Idle.fbx",
-  "pensando": "ava/Thinking.fbx",
-  "falas": ["ava/Talking.fbx", "ava/Arms Crossed.fbx"]
+  "personagem": "ava/Y personagem.fbx",
+  "parado": "ava/parado.fbx",
+  "pensando": "ava/pensando.fbx",
+  "falas": ["ava/fala.fbx", "ava/Arms Crossed.fbx"]
 }
