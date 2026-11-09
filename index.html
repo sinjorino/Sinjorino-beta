@@ -529,7 +529,7 @@ function avLoop(t){
  hr.setAttribute('transform','translate(0 '+hy.toFixed(1)+') rotate('+(8*hand-an).toFixed(1)+' 335 430)');
  hl.setAttribute('opacity',hand.toFixed(2));hr.setAttribute('opacity',hand.toFixed(2));
  halo.setAttribute('opacity',(.55+(sp?mouth*.5:0)+(s==='think'?.2:0)).toFixed(2));
- if(av3f){try{av3f(t,mouth,s,dtv)}catch(e){av3f=null;$('#orb').classList.remove('d3')}}pc.setTransform(d,0,0,d,0,0);pc.clearRect(0,0,w,hh);
+ if(av3f){try{av3f(t,mouth,s,dtv)}catch(e){dbg('Ava 3D erro ao desenhar: '+((e&&e.message)||e));av3f=null;$('#orb').classList.remove('d3')}}pc.setTransform(d,0,0,d,0,0);pc.clearRect(0,0,w,hh);
  const cx=w/2,cy=hh*.5,R=w*.375;
  if(s==='think'&&!av3f)for(let i=0;i<28;i++){const a=t/650+i*.2244,rr=R*(1+.04*Math.sin(t/300+i));pc.fillStyle='rgba(255,255,255,'+(.25+.6*((i%7)/7))+')';pc.fillRect(cx+Math.cos(a)*rr-1,cy+Math.sin(a)*rr-1,2.2,2.2)}
  if(pts.length<90&&Math.random()<(sp?.9:.25)){
@@ -540,8 +540,9 @@ function avLoop(t){
 let av3f=null;
 (async function(){
 try{
+ dbg('Ava 3D: carregando three.js...');
  const T=await import('three'),cvs=$('#av3'),ren=new T.WebGLRenderer({canvas:cvs,antialias:true,alpha:true});
- ren.setPixelRatio(Math.min(devicePixelRatio||1,2));ren.setClearColor(0,0);
+ dbg('Ava 3D: three.js e WebGL ok');ren.setPixelRatio(Math.min(devicePixelRatio||1,2));ren.setClearColor(0,0);
  const scn=new T.Scene(),cam=new T.PerspectiveCamera(34,.8,.1,50);cam.position.set(0,-.4,6.6);cam.lookAt(0,-.4,0);
  const U={uT:{value:0},uL:{value:new T.Vector3(.8,.4,.6)}};
  const mat=new T.ShaderMaterial({uniforms:U,side:T.DoubleSide,
@@ -601,7 +602,7 @@ try{
   const clipOf=async us=>{const g=await tryLoad(us);return(g&&g.animations&&g.animations[0])||null};
   const falas=Array.isArray(nm.falas)&&nm.falas.length?nm.falas.map(f=>[f]):[1,2,3,4,5,6,7,8].map(i=>dflt('fala'+i));
   const [obj,cI,cT,...cS]=await Promise.all([tryLoad(lst('personagem','personagem')),clipOf(lst('parado','parado')),clipOf(lst('pensando','pensando')),...falas.map(clipOf)]);
-  if(!obj)throw new Error('não achei o arquivo do personagem');
+  dbg('ava.json: '+(man?'achado':'não existe')+' | personagem: '+(obj?'achado':'NÃO achado')+' | parado: '+(cI?'ok':'NÃO achado')+' | pensando: '+(cT?'ok':'não tem')+' | falas: '+cS.filter(Boolean).length);if(!obj)throw new Error('não achei o arquivo do personagem');
   if(!cI)throw new Error('não achei a animação parada');
   const matExt=new T.ShaderMaterial({uniforms:U,side:T.DoubleSide,fragmentShader:mat.fragmentShader,
    vertexShader:'varying vec3 vN;varying vec3 vV;\n#include <common>\n#include <skinning_pars_vertex>\nvoid main(){\n#include <beginnormal_vertex>\n#include <skinbase_vertex>\n#include <skinnormal_vertex>\n#include <begin_vertex>\n#include <skinning_vertex>\nvN=normalize(normalMatrix*objectNormal);vec4 mv=modelViewMatrix*vec4(transformed,1.);vV=-mv.xyz;gl_Position=projectionMatrix*mv;}'});
@@ -628,7 +629,7 @@ try{
   scn.add(obj);root.visible=false;
   cam.position.set(0,1.37,1.95);cam.lookAt(0,1.37,0);
   ext=true;
- }catch(e){ext=false;console.info('Ava 3D: usando o modelo feito por código (',e&&e.message,')')}
+ }catch(e){ext=false;dbg('Ava 3D: sem modelo Mixamo, usando o feito por código — '+((e&&e.message)||e));console.info('Ava 3D: usando o modelo feito por código (',e&&e.message,')')}
  av3f=function(t,mouth,state,dt){
   const w=cvs.clientWidth,h=cvs.clientHeight;if(!w||!h)return;
   if(cvs.width!==Math.round(w*ren.getPixelRatio())){ren.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
@@ -647,11 +648,11 @@ try{
   root.position.y=Math.sin(t*.0016)*.012;
   lw.position.y=.125-mouth*.06;cav.scale.y=.004+mouth*.05;wm.opacity=.95*(1-.92*U.uT.value);
   ren.render(scn,cam)};
- $('#orb').classList.add('d3');
-}catch(e){av3f=null;console.warn('Ava 3D indisponível, usando o desenho 2D',e)}
+ dbg('Ava 3D ativo: '+(ext?'modelo Mixamo':'modelo feito por código'));$('#orb').classList.add('d3');
+}catch(e){av3f=null;dbg('Ava 3D FALHOU: '+((e&&e.message)||e)+' | usando o desenho 2D');console.warn('Ava 3D indisponível, usando o desenho 2D',e)}
 })();
 async function boot(){
- dbg('versão 5 (aviso de voz novo) | url com retorno do Google: '+(/access_token|code=/.test(location.hash+location.search)?'sim':'não'));
+ dbg('versão 6 (modelo Mixamo) | url com retorno do Google: '+(/access_token|code=/.test(location.hash+location.search)?'sim':'não'));
  try{
   if(!window.supabase)throw new Error('lib');
   const c=await (await fetch('/api/config')).json();
