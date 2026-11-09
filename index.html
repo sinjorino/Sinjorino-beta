@@ -595,9 +595,14 @@ try{
   ren.render(scn,cam)};
  try{
   const {FBXLoader}=await import('three/addons/loaders/FBXLoader.js'),ld=new FBXLoader();
-  const clipOf=async n=>{try{const g=await ld.loadAsync('ava/'+n+'.fbx');const c=g.animations&&g.animations[0];if(c)c.name=n;return c||null}catch(e){return null}};
-  const [obj,cI,cT,...cS]=await Promise.all([ld.loadAsync('ava/personagem.fbx'),...['parado','pensando','fala1','fala2','fala3','fala4','fala5','fala6','fala7','fala8'].map(clipOf)]);
-  if(!cI)throw new Error('falta ava/parado.fbx');
+  const man=await fetch('ava.json').then(r=>r.ok?r.json():null).catch(()=>null),nm=man||{};
+  const tryLoad=async us=>{for(const u of us){try{return await ld.loadAsync(encodeURI(u))}catch(e){}}return null};
+  const dflt=n=>['ava/'+n+'.fbx',n+'.fbx'],lst=(k,d)=>nm[k]?[nm[k]]:dflt(d);
+  const clipOf=async us=>{const g=await tryLoad(us);return(g&&g.animations&&g.animations[0])||null};
+  const falas=Array.isArray(nm.falas)&&nm.falas.length?nm.falas.map(f=>[f]):[1,2,3,4,5,6,7,8].map(i=>dflt('fala'+i));
+  const [obj,cI,cT,...cS]=await Promise.all([tryLoad(lst('personagem','personagem')),clipOf(lst('parado','parado')),clipOf(lst('pensando','pensando')),...falas.map(clipOf)]);
+  if(!obj)throw new Error('não achei o arquivo do personagem');
+  if(!cI)throw new Error('não achei a animação parada');
   const matExt=new T.ShaderMaterial({uniforms:U,side:T.DoubleSide,fragmentShader:mat.fragmentShader,
    vertexShader:'varying vec3 vN;varying vec3 vV;\n#include <common>\n#include <skinning_pars_vertex>\nvoid main(){\n#include <beginnormal_vertex>\n#include <skinbase_vertex>\n#include <skinnormal_vertex>\n#include <begin_vertex>\n#include <skinning_vertex>\nvN=normalize(normalMatrix*objectNormal);vec4 mv=modelViewMatrix*vec4(transformed,1.);vV=-mv.xyz;gl_Position=projectionMatrix*mv;}'});
   obj.traverse(o=>{if(o.isMesh){o.material=matExt;o.frustumCulled=false}});
