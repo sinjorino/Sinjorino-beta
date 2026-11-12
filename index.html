@@ -232,8 +232,39 @@ h1{font-weight:400;font-size:19px;letter-spacing:.38em}
 .app.busy~.bg{filter:brightness(1.9)}
 .app.busy~.bg .core{animation-duration:2.4s}
 .map::after{background:radial-gradient(ellipse at 50% 50%,transparent 60%,rgba(0,0,0,.4))}
+
+.micb{flex:none;width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:#cfcfd4;cursor:pointer;display:grid;place-items:center;transition:.3s}
+.micb:hover{background:rgba(255,255,255,.12);color:#fff;transform:scale(1.08)}
+#voz{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:24px;background:rgba(0,0,0,.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);opacity:0;visibility:hidden;transition:opacity .6s,visibility 0s .6s;overflow:auto}
+#voz.on{opacity:1;visibility:visible;transition:opacity .6s}
+.vx{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:18px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:#fff;font-size:24px;line-height:1;cursor:pointer;transition:.3s}
+.vx:hover{background:#fff;color:#000;transform:rotate(90deg)}
+.vname{font-family:var(--disp);letter-spacing:.5em;text-indent:.5em;font-size:15px;color:#fff;opacity:.85}
+.vlogo{width:min(250px,56vw);height:auto;flex:none;cursor:pointer;overflow:visible;-webkit-tap-highlight-color:transparent}
+.vlogo .rg{animation:spin 30s linear infinite}
+.vst{font:500 12px "IBM Plex Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:#9a9aa2;text-align:center;max-width:330px;line-height:1.7;min-height:20px}
+.vtx{min-height:56px;max-width:min(560px,90vw);text-align:center;font:300 21px/1.45 "Nunito",sans-serif;color:#f2f2f2}
+.vsel{display:flex;flex-direction:column;align-items:center;gap:10px}
+.vlbl,.veng{font:500 10px "IBM Plex Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:#6f6f76;min-height:12px}
+.vchips{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:min(400px,88vw)}
+.vc{font:inherit;display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#e8e8ec;cursor:pointer;transition:.3s}
+.vc b{font:600 14px "Nunito",sans-serif}
+.vc small{font:400 11px "Nunito",sans-serif;color:#9a9aa2}
+.vc:hover{background:rgba(255,255,255,.13);transform:translateY(-2px)}
+.vc.on{background:#fff;color:#0b0b0d;border-color:#fff}
+.vc.on small{color:#55555c}
 </style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script></head><body>
 <div id="intro"><div class="ig"><div class="rings"><i></i><i></i><i></i></div><svg class="ilogo" viewBox="0 0 48 48" fill="none" stroke="#fff"><circle class="d1" cx="24" cy="24" r="22" pathLength="1"/><path class="d2" pathLength="1" d="M8 28c4 0 4-12 8-12s4 12 8 12 4-12 8-12 4 12 8 12"/><path class="d3" pathLength="1" d="M8 31c4 0 4-8 8-8s4 8 8 8 4-8 8-8 4 8 8 8"/><path class="d4" pathLength="1" d="M8 34c4 0 4-5 8-5s4 5 8 5 4-5 8-5 4 5 8 5"/></svg><div class="iname" id="iname" aria-label="Sinjorino"></div><div class="ibar"><b></b></div><div class="icount" id="icount"></div></div><div class="iskip">toque para pular</div></div>
+<div id="voz" data-s="idle"><button class="vx" id="vx" aria-label="Fechar">×</button>
+<div class="vname">SINJORINO</div>
+<svg class="vlogo" id="vorb" viewBox="0 0 48 48" fill="none" stroke="#fff"><defs><clipPath id="vcp"><circle cx="24" cy="24" r="18.3"/></clipPath><radialGradient id="vgl"><stop offset="0" stop-color="#fff" stop-opacity=".4"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+<circle id="vhalo" cx="24" cy="24" r="32" fill="url(#vgl)" stroke="none" opacity=".35"/>
+<circle class="rg" cx="24" cy="24" r="22.5" stroke-width=".45" stroke-dasharray="1 2" opacity=".6"/>
+<circle id="vring" cx="24" cy="24" r="19" stroke-width=".9"/>
+<g clip-path="url(#vcp)" stroke-linecap="round"><g id="vg"><path id="vw1" d="M-24 23 q6 -9 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0" stroke-width="1.1"/><path id="vw2" d="M-24 29 q6 -6 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0" stroke-width=".8" opacity=".6"/><path id="vw3" d="M-24 34 q6 -4 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0" stroke-width=".6" opacity=".35"/></g></g></svg>
+<div class="vst" id="vst">toque na logo para falar</div>
+<div class="vtx" id="vtx"></div>
+<div class="vsel"><div class="vlbl">escolha a voz</div><div class="vchips" id="vchips"></div><div class="veng" id="veng"></div></div></div>
 <div id="auth"><div class="acard" id="acard">
 <svg class="alogo" viewBox="0 0 48 48" fill="none" stroke="#fff"><defs><clipPath id="lcp2"><circle cx="24" cy="24" r="18.3"/></clipPath></defs><circle class="rg" cx="24" cy="24" r="22.5" stroke-width="1" stroke-dasharray="2 4" opacity=".6"/><circle cx="24" cy="24" r="19" stroke-width="1.4"/><g class="lg" clip-path="url(#lcp2)" stroke-linecap="round"><path class="lw lw1" d="M-24 23 q6 -9 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0" stroke-width="1.7"/><path class="lw lw2" d="M-24 29 q6 -6 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0" stroke-width="1.2" opacity=".6"/><path class="lw lw3" d="M-24 34 q6 -4 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0" stroke-width="1" opacity=".35"/></g></svg>
 <div class="asub" id="asub">bem-vindo de volta</div>
@@ -255,7 +286,7 @@ h1{font-weight:400;font-size:19px;letter-spacing:.38em}
 <div><h1>SINJORINO</h1><p id="sub"></p></div><button class="mem" id="mem">memória · <b id="mc">0</b></button><button class="me" id="me" aria-label="Conta">?</button><div class="pop" id="pop"></div></header>
 <div class="hist"><button class="hc new" id="newc">＋ Nova</button><div class="hl" id="hl"></div></div>
 <div class="msgs" id="msgs"></div>
-<div class="barw"><div class="bar"><span class="pr">›</span><input id="in" placeholder="pergunte algo ao Sinjorino…" autocomplete="off" enterkeyhint="send"><kbd>enter</kbd><button id="go" aria-label="Enviar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5v7a3 3 0 0 1-3 3H5M9 10l-4 5 4 5"/></svg></button></div></div>
+<div class="barw"><div class="bar"><span class="pr">›</span><input id="in" placeholder="pergunte algo ao Sinjorino…" autocomplete="off" enterkeyhint="send"><button class="micb" id="mic" aria-label="Conversa por voz" title="Conversa por voz"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button><kbd>enter</kbd><button id="go" aria-label="Enviar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5v7a3 3 0 0 1-3 3H5M9 10l-4 5 4 5"/></svg></button></div></div>
 </section></div>
 <div class="bg"><i class="o1"></i><i class="o2"></i><i class="o3"></i><i class="o4"></i><i class="core"></i></div>
 <script>
@@ -361,18 +392,18 @@ async function send(txt){
  add('u',txt);
  try{await ensureConv(txt)}catch(e){}
  if(tm){const f='ensinado: “'+tm[1].slice(0,80)+'” → “'+tm[2].slice(0,120)+'”',rp='Aprendido. Agora sei responder “'+tm[1]+'”.';
-  hist.push({role:'user',content:txt},{role:'assistant',content:rp});add('a',rp);nodes.forEach(n=>n.g=1);
+  hist.push({role:'user',content:txt},{role:'assistant',content:rp});add('a',rp);nodes.forEach(n=>n.g=1);if(voiceOn)speak(rp);
   const r=await sb.from('memorias').insert({texto:f});if(!r.error){facts.push(f);drawMem()}
   persist([{role:'user',content:txt},{role:'assistant',content:rp}]);$('#sub').textContent=subIdle();return}
  hist.push({role:'user',content:txt});
  const el=add('a','');el.classList.add('live');setBusy(true);
  try{
   let m=hist.slice(-14);while(m.length&&m[0].role!=='user')m.shift();
-  const d=await api({messages:m,facts});
-  await type(el,d.text);hist.push({role:'assistant',content:d.text});persist([{role:'user',content:txt},{role:'assistant',content:d.text}]);learn(txt);
+  const VPFX='(Responda em até 3 frases curtas, em linguagem de conversa, sem listas, símbolos nem emojis.)\n\nMensagem da pessoa: ';const m2=voiceOn?m.map((x,i)=>i===m.length-1?{...x,content:VPFX+x.content}:x):m;const d=await api({messages:m2,facts});
+  if(voiceOn)speak(d.text);await type(el,d.text);hist.push({role:'assistant',content:d.text});persist([{role:'user',content:txt},{role:'assistant',content:d.text}]);learn(txt);
   outK=Math.abs([...d.text].reduce((a,c)=>(a*31+c.charCodeAt(0))|0,7))%11;outG=1;nodes[nodes.length-11+outK].g=1;
  }catch(e){
-  hist.pop();el.textContent=(e&&e.message)||'Não consegui responder agora. Tente novamente em instantes.';
+  hist.pop();el.textContent=(e&&e.message)||'Não consegui responder agora. Tente novamente em instantes.';if(voiceOn)vset('idle',(e&&e.message)||'Não consegui responder. Toque na logo para tentar de novo.');
  }finally{el.classList.remove('live');setBusy(false)}
 }
 function go(){const v=$('#in').value.trim();if(!v||busy)return;$('#in').value='';send(v)}
@@ -423,9 +454,91 @@ function dbg(t){if(!DBG)return;if(!dbgEl){dbgEl=document.createElement('pre');db
 async function finish(){$('#me').textContent=(nome()[0]||'?').toUpperCase();await loadAll();closeAuth();route()}
 async function enterApp(u){if(user&&user.id===u.id)return;user=u;dbg('login: '+(u.email||'?')+' | provedores: '+provs(u).join(',')+' | pede senha: '+needsPw(u));if(needsPw(u)){pendingPw=true;manualPw=false;setMode('pw');$('#askip').textContent='agora não';route();return}await finish()}
 $('#askip').onclick=async()=>{if(!sb)return;if(manualPw){manualPw=false;pendingPw=false;closeAuth();setMode('in');return}try{await sb.auth.updateUser({data:{senha_ok:true}})}catch(e){}pendingPw=false;await finish()};
-function leave(){user=null;pendingPw=false;manualPw=false;cur=null;hist=[];facts=[];convs=[];pop.classList.remove('on');AP.classList.remove('go','chatting');$('#msgs').textContent='';drawMem();drawHist();['au','ae','ap','ac'].forEach(i=>$('#'+i).value='');setMode('in');route()}
+function leave(){closeVoice();user=null;pendingPw=false;manualPw=false;cur=null;hist=[];facts=[];convs=[];pop.classList.remove('on');AP.classList.remove('go','chatting');$('#msgs').textContent='';drawMem();drawHist();['au','ae','ap','ac'].forEach(i=>$('#'+i).value='');setMode('in');route()}
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition,TTS=window.speechSynthesis,VZ=$('#voz');
+let voiceOn=false,rec=null,vstate='idle',noSpeech=0,sayId=0,vozN=1,vctx=null,vsrc=null,van=null,vlevel=0,kick=0,vRun=false,vamp=.55,vlast=0,vph=[0,0,0],bvoices=[];
+try{vozN=Math.min(4,Math.max(1,+localStorage.getItem('s_voz')||1))}catch(e){}
+if(!SR)$('#mic').style.display='none';
+const VOZES=[['Voz 1','feminina'],['Voz 2','feminina'],['Voz 3','masculina'],['Voz 4','masculina']];
+function vset(s,t){vstate=s;VZ.dataset.s=s;$('#vst').textContent=t||({idle:'toque na logo para falar',listen:'ouvindo…',think:'pensando…',speak:'falando…'}[s])}
+function drawChips(){const c=$('#vchips');c.textContent='';VOZES.forEach((v,i)=>{const b=document.createElement('button');b.className='vc'+(i+1===vozN?' on':'');b.innerHTML='<b></b><small></small>';b.firstChild.textContent=v[0];b.lastChild.textContent=v[1];
+ b.onclick=()=>{vozN=i+1;try{localStorage.setItem('s_voz',vozN)}catch(e){}drawChips();if(voiceOn&&!busy){stopRec();speak('Olá! Esta é a minha voz.')}};c.append(b)})}
+function loadBV(){bvoices=TTS?TTS.getVoices().filter(v=>/^pt/i.test(v.lang)):[]}
+if(TTS){loadBV();TTS.onvoiceschanged=loadBV}
+const FEM=/francisca|luciana|vit[oó]ria|maria|helena|camila|fernanda|raquel|joana|google/i,MAS=/ant[oó]nio|felipe|daniel|ricardo|thiago|jo[aã]o|\bmale\b|\bmasc/i,BP={1:[1.05,.97],2:[1.22,1.04],3:[.8,.95],4:[.64,.9]};
+function pickBV(n){const br=bvoices.filter(v=>/pt[-_]BR/i.test(v.lang)),pool=br.length?br:bvoices,fem=n<=2,g=pool.filter(v=>fem?(FEM.test(v.name)&&!MAS.test(v.name)):MAS.test(v.name)),l=g.length?g:pool;return l.length?l[(n-1)%2<l.length?(n-1)%2:0]:null}
+function hush(){sayId++;try{if(vsrc){vsrc.onended=null;vsrc.stop()}}catch(e){}vsrc=null;van=null;if(TTS)TTS.cancel()}
+function stopRec(){if(rec){const r=rec;rec=null;r.onend=null;r.onerror=null;try{r.abort()}catch(e){}}}
+const cleanT=t=>t.replace(/\p{Extended_Pictographic}/gu,'').replace(/https?:\/\/\S+/g,'link').replace(/[*_#`>~|]/g,'').replace(/\s+/g,' ').trim().slice(0,500);
+async function cloudBuf(t){
+ if(!vctx||!sb)throw new Error('sem áudio');
+ const {data}=await sb.auth.getSession();const tk=data.session&&data.session.access_token;
+ const r=await fetch('/api/voz',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tk},body:JSON.stringify({text:t,voz:vozN})});
+ if(!r.ok)throw new Error('voz '+r.status);
+ return await vctx.decodeAudioData(await r.arrayBuffer())}
+function afterSpeech(id){if(id!==sayId)return;if(voiceOn)setTimeout(listen,350);else vset('idle')}
+function browserSay(t,id){
+ if(!TTS){vset('idle','Seu navegador não tem voz para falar.');return}
+ const parts=t.match(/[^.!?;:]+[.!?;:]*\s*/g)||[t],ch=[];let c='';for(const p of parts){if((c+p).length>180&&c){ch.push(c);c=p}else c+=p}if(c)ch.push(c);
+ const pr=BP[vozN],vo=pickBV(vozN);vset('speak');$('#veng').textContent='voz do aparelho';
+ setTimeout(()=>ch.forEach((x,i)=>{const u=new SpeechSynthesisUtterance(x);u.lang='pt-BR';if(vo)u.voice=vo;u.pitch=pr[0];u.rate=pr[1];u.onboundary=()=>{kick=1};u.onend=()=>{if(i===ch.length-1)afterSpeech(id)};TTS.speak(u)}),80)}
+async function speak(text){
+ const t=cleanT(text);if(!t){if(voiceOn)listen();return}
+ hush();stopRec();const id=sayId;
+ vset('think','preparando a voz…');
+ try{
+  const buf=await cloudBuf(t);if(id!==sayId)return;
+  vsrc=vctx.createBufferSource();vsrc.buffer=buf;van=vctx.createAnalyser();van.fftSize=512;vsrc.connect(van);van.connect(vctx.destination);
+  vsrc.onended=()=>{van=null;vsrc=null;afterSpeech(id)};vset('speak');$('#veng').textContent='voz da nuvem';vsrc.start();
+ }catch(e){if(id!==sayId)return;browserSay(t,id)}
+}
+function listen(){
+ if(!voiceOn||!SR)return;
+ if(busy){setTimeout(listen,300);return}
+ hush();stopRec();
+ const r=new SR();rec=r;r.lang='pt-BR';r.interimResults=true;r.continuous=false;let fin='';
+ r.onstart=()=>{vset('listen');$('#vtx').textContent=''};
+ r.onresult=e=>{let it='';for(let i=e.resultIndex;i<e.results.length;i++){const x=e.results[i];if(x.isFinal)fin+=x[0].transcript;else it+=x[0].transcript}$('#vtx').textContent=(fin+it).trim()};
+ r.onerror=e=>{const er=e.error;if(er==='no-speech'||er==='aborted')return;
+  if(er==='not-allowed'||er==='service-not-allowed')vset('idle','Permita o microfone nas configurações do navegador e toque na logo para tentar de novo.');
+  else vset('idle','Não consegui ouvir ('+er+'). Toque na logo para tentar de novo.')};
+ r.onend=()=>{const t=fin.trim();if(rec===r)rec=null;if(!voiceOn)return;
+  if(t){noSpeech=0;vset('think');send(t)}
+  else if(vstate==='listen'){if(++noSpeech<3)setTimeout(listen,300);else vset('idle')}};
+ try{r.start()}catch(e){vset('idle','Não consegui abrir o microfone. Toque na logo para tentar de novo.')}
+}
+function openVoice(){
+ if(!SR){alert('Seu navegador não suporta voz. Use o Chrome, o Edge ou o Safari.');return}
+ if(busy)return;
+ voiceOn=true;noSpeech=0;VZ.classList.add('on');$('#vtx').textContent='';$('#veng').textContent='';drawChips();
+ try{vctx=vctx||new (window.AudioContext||window.webkitAudioContext)();vctx.resume()}catch(e){vctx=null}
+ try{if(TTS)TTS.speak(new SpeechSynthesisUtterance(''))}catch(e){}
+ if(!vRun){vRun=true;requestAnimationFrame(vLoop)}
+ listen();
+}
+function closeVoice(){voiceOn=false;hush();stopRec();VZ.classList.remove('on');vset('idle')}
+$('#mic').onclick=openVoice;$('#vx').onclick=closeVoice;
+$('#vorb').onclick=()=>{if(vstate==='speak'){hush();listen()}else if(vstate==='idle')listen();else if(vstate==='listen'&&rec){try{rec.stop()}catch(e){}}};
+addEventListener('keydown',e=>{if(e.key==='Escape'&&voiceOn)closeVoice()});
+// ondas da logo: seguem o volume da voz (áudio real quando a voz vem da nuvem)
+const vW=[$('#vw1'),$('#vw2'),$('#vw3')],vG=$('#vg'),vHalo=$('#vhalo'),vRing=$('#vring');
+function vLoop(t){
+ if(!voiceOn){vRun=false;return}
+ requestAnimationFrame(vLoop);
+ const dt=Math.min(50,t-(vlast||t));vlast=t;
+ const s=vstate,sp=s==='speak';let tg=0;
+ if(sp){if(van){const a=new Uint8Array(van.fftSize);van.getByteTimeDomainData(a);let q=0;for(let i=0;i<a.length;i++){const v=(a[i]-128)/128;q+=v*v}tg=Math.min(1,Math.sqrt(q/a.length)*4.5)}
+  else{kick*=.9;tg=Math.min(1,Math.max(0,Math.sin(t/85)*Math.sin(t/210+1))*.7+kick*.5)}}
+ vlevel+=(tg-vlevel)*.35;
+ const base=sp?1+vlevel*3.2:s==='think'?1.7:s==='listen'?.9:.5,spd=[.006,-.0045,.0035];
+ for(let i=0;i<3;i++){vph[i]+=spd[i]*base*dt;const x=-(((vph[i]%24)+24)%24);vW[i].setAttribute('transform','translate('+x.toFixed(2)+' 0)')}
+ const amp=sp?.5+vlevel*1.7:s==='think'?.85+.2*Math.sin(t/260):s==='listen'?.62+.1*Math.sin(t/700):.5;
+ vamp+=(amp-vamp)*.2;vG.setAttribute('transform','translate(0 24) scale(1 '+vamp.toFixed(3)+') translate(0 -24)');
+ vHalo.setAttribute('opacity',(.3+(sp?vlevel*.65:s==='think'?.25:0)).toFixed(2));
+ vRing.setAttribute('stroke-width',(.9+(sp?vlevel*.9:0)).toFixed(2));
+}
 async function boot(){
- dbg('versão 5 (ondas e luzes) | url com retorno do Google: '+(/access_token|code=/.test(location.hash+location.search)?'sim':'não'));
+ dbg('versão 6 (modo de voz) | url com retorno do Google: '+(/access_token|code=/.test(location.hash+location.search)?'sim':'não'));
  try{
   if(!window.supabase)throw new Error('lib');
   const c=await (await fetch('/api/config')).json();
