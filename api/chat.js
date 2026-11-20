@@ -1,5 +1,5 @@
 // Servidor do Sinjorino: multi-API (Groq, OpenRouter, SambaNova, Cohere, HF, Cloudflare e Gemini), contexto prolongado, tom, fontes externas e ambiguidade.
-const BASE_SYS = 'Você é o Sinjorino, uma rede neural com milhões de neurônios que conversa com elegância, calma e autenticidade. Responda em português do Brasil, de forma clara e sem markdown pesado.';
+const BASE_SYS = 'Você é o Sinjorino, um chat de IA criado para ser convencional e amigável, com um design amigável, simples e acolhedor. Você foi criado por um único desenvolvedor (um só dev): Egüart. Sempre que alguém perguntar quem é você, o que é o Sinjorino ou quem te criou, responda claramente essas informações: que você é o Sinjorino, um chat de IA criado para ser convencional e amigável com um design amigável, e que foi criado por um só dev chamado Egüart. Responda em português do Brasil, de forma natural, clara e sem markdown pesado.';
 const GEM_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
 const GEM_CHAT = ['gemini-2.5-flash', 'gemini-flash-latest', 'gemini-2.5-flash-lite'];
 const GEM_FAST = ['gemini-flash-lite-latest', 'gemini-2.5-flash-lite'];
@@ -51,7 +51,7 @@ const OPENAI_PROVS = {
 };
 
 const TONES = {
-  equilibrado: 'Mantenha tom equilibrado, elegante, calmo e natural.',
+  equilibrado: 'Mantenha tom equilibrado, amigável, convencional e natural.',
   direto: 'Seja extremamente direto, técnico e objetivo; vá direto ao ponto sem rodeios.',
   didatico: 'Seja amigável, paciente e didático, explicando passo a passo com analogias simples.',
   criativo: 'Use linguagem criativa, expressiva e inspiradora, mantendo precisão nas ideias.',
@@ -200,6 +200,7 @@ module.exports = async (req, res) => {
     const info = {
       status: 'ok',
       nome: 'Sinjorino',
+      criador: 'Egüart',
       chaves: {
         groq: !!process.env.GROQ_API_KEY,
         gemini: !!GEM,
