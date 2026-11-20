@@ -1280,7 +1280,9 @@ $('#wl-form').addEventListener('submit',async e=>{
   try{
     const r=await fetch('/api/inscricao',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({nome,email})});
     const d=await r.json().catch(()=>({}));
-    if(!r.ok)throw new Error(d.error||'Falha ao enviar inscrição.');
+    const r=await fetch('/api/inscricao',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({nome,email})});
+    const d=r.status===404?{relay:'formsubmit'}:await r.json().catch(()=>({}));
+    if(r.status!==404&&!r.ok)throw new Error(d.error||('Erro '+r.status+' ao enviar inscrição.'));
     if(d.relay==='formsubmit'){
       const fr=await fetch('https://formsubmit.co/ajax/sinjorino.eg@gmail.com',{
         method:'POST',
