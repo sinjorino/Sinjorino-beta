@@ -74,6 +74,13 @@ body.land-on #landing{display:flex}#landing.out{opacity:0;pointer-events:none}
 .mini-box{margin-top:auto;padding-top:8px}
 .mini-wrap{position:relative;height:112px;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:#090a0e;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:14px 14px}
 .mini-cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .mini-ui{position:relative;min-height:112px;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:#090a0e;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:14px 14px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.mini-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.mini-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);font:500 11px var(--mono);color:var(--ink-2)}
+.mini-pill.ac{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff}
+.mini-pill i{width:5px;height:5px;border-radius:50%;background:#fff}
+.mini-msg{padding:7px 11px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03);font:400 11.5px var(--sans);color:var(--ink-2)}
+.mini-msg b{color:#fff;font-weight:600}
 
 .lsteps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .lstep{padding:26px;border-radius:22px;background:rgba(13,14,18,.84);border:1px solid var(--line);display:flex;flex-direction:column;gap:12px;transition:border-color .25s,transform .25s}.lstep:hover{border-color:rgba(255,255,255,.22);transform:translateY(-2px)}
@@ -270,7 +277,7 @@ body:not(.land-on) .app{display:flex}.app.go{opacity:1;pointer-events:auto}.app.
 
 <div class="map" id="map"><canvas id="net"></canvas></div>
 
-<div id="landing">
+  <div id="landing">
   <nav class="lnav">
     <div class="lnav-in">
       <a class="lbrand" href="#landing">
@@ -285,7 +292,7 @@ body:not(.land-on) .app{display:flex}.app.go{opacity:1;pointer-events:auto}.app.
   <section class="lhero">
     <div class="leyebrow leyebrow-box rev vis"><i></i>Assistente de IA · Em português</div>
     <h1 class="rev vis">Inteligência<br>que <em>conversa.</em></h1>
-    <p class="lhero-sub rev vis">Um espaço leve para conversar no dia a dia, pesquisar na web, visualizar ideias com mapas ao vivo e usar voz natural.</p>
+    <p class="lhero-sub rev vis">Um espaço leve para conversar no dia a dia, guardar memórias úteis, pesquisar na web com fontes e falar por voz natural.</p>
     <div class="lhero-cta rev vis">
       <button class="lcta-main" id="land-start">Começar a conversar →</button>
       <button class="lcta-sec" id="land-guest-hero">Entrar como visitante</button>
@@ -295,55 +302,66 @@ body:not(.land-on) .app{display:flex}.app.go{opacity:1;pointer-events:auto}.app.
 
   <section class="lsec" id="land-cap">
     <div class="leyebrow rev">Capacidades</div>
-    <h2 class="ltitle rev">Um chat amigável. <em>Muitas formas de ajudar.</em></h2>
+    <h2 class="ltitle rev">Um chat amigável. <em>Feito para o seu ritmo.</em></h2>
     <div class="lbento">
       <article class="lcard span-3 rev">
         <div class="lcard-head">
-          <div class="lcard-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="8.5" y="14" width="7" height="7" rx="1.5"/></svg></div>
-          <span class="lcard-tag">10 Mapas · Multi-IA</span>
+          <div class="lcard-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+          <span class="lcard-tag">Memória · Ensino direto</span>
         </div>
-        <h3>10 mapas ao vivo &amp; Rede neural</h3>
-        <p>A rede neural acompanha a conversa no fundo da tela enquanto um painel lateral opcional exibe 10 mapas técnicos em tempo real.</p>
-        <div class="mini-box"><div class="mini-wrap"><canvas class="mini-cv" data-m="0"></canvas></div></div>
+        <h3>Aprende com você em segundos</h3>
+        <p>O Sinjorino lembra de fatos das suas conversas e permite ensinar respostas próprias usando <code>ensinar: pergunta = resposta</code>.</p>
+        <div class="mini-box"><div class="mini-ui">
+          <div class="mini-msg"><b>você:</b> ensinar: meu deploy = vercel --prod</div>
+          <div class="mini-row"><span class="mini-pill ac"><i></i>salvo na memória</span><span class="mini-pill">reutilizado em novas conversas</span></div>
+        </div></div>
       </article>
 
       <article class="lcard span-3 rev">
         <div class="lcard-head">
           <div class="lcard-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg></div>
-          <span class="lcard-tag">Contexto · Modo Pro</span>
+          <span class="lcard-tag">Contexto · Modo Pro &amp; Beta</span>
         </div>
-        <h3>Contexto prolongado &amp; Mídia Pro</h3>
-        <p>Conversas extensas são resumidas automaticamente. Imagens em alta definição e sons por IA chegam ao Modo Pro (com prévia no Beta Experimental).</p>
-        <div class="mini-box"><div class="mini-wrap"><canvas class="mini-cv" data-m="2"></canvas></div></div>
+        <h3>Contexto prolongado &amp; Recursos Pro</h3>
+        <p>Conversas extensas são resumidas automaticamente. O futuro Modo Pro reúne o <b>Petga</b> (voz imersiva), imagens em HD e criação de sons por IA.</p>
+        <div class="mini-box"><div class="mini-ui">
+          <div class="mini-row"><span class="mini-pill ac"><i></i>Petga · Voz</span><span class="mini-pill">60 msgs de contexto</span></div>
+          <div class="mini-row"><span class="mini-pill">/imagem</span><span class="mini-pill">/som</span><span class="mini-pill">Beta Experimental</span></div>
+        </div></div>
       </article>
 
       <article class="lcard span-2 rev">
         <div class="lcard-head">
           <div class="lcard-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2a14 14 0 0 1 0 20"/></svg></div>
-          <span class="lcard-tag">Radar · Web</span>
+          <span class="lcard-tag">Links · Web</span>
         </div>
         <h3>Fontes externas &amp; Web</h3>
         <p>Cole qualquer link para leitura direta ou ative o modo Web para respostas atualizadas com fontes citadas.</p>
-        <div class="mini-box"><div class="mini-wrap"><canvas class="mini-cv" data-m="3"></canvas></div></div>
+        <div class="mini-box"><div class="mini-ui">
+          <div class="mini-row"><span class="mini-pill ac"><i></i>Modo Web ativo</span></div>
+          <div class="mini-row"><span class="mini-pill">↗ fonte citada</span><span class="mini-pill">leitura de URL</span></div>
+        </div></div>
       </article>
 
       <article class="lcard span-2 rev">
         <div class="lcard-head">
           <div class="lcard-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .8c0 1.7-2.5 2-2.5 3.7M12 17h.01"/></svg></div>
-          <span class="lcard-tag">Árvore · Decisão</span>
+          <span class="lcard-tag">Clareza · Contexto</span>
         </div>
         <h3>Detecção de ambiguidade</h3>
         <p>Se uma pergunta tiver duplo sentido, o Sinjorino pergunta antes de chutar e oferece opções rápidas de 1 clique.</p>
-        <div class="mini-box"><div class="mini-wrap"><canvas class="mini-cv" data-m="1"></canvas></div></div>
+        <div class="mini-box"><div class="mini-ui">
+          <div class="mini-row"><span class="mini-pill ac">Resumo rápido</span><span class="mini-pill">Passo a passo</span></div>
+        </div></div>
       </article>
 
       <article class="lcard span-2 rev">
         <div class="lcard-head">
-          <div class="lcard-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+          <div class="lcard-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></div>
           <span class="lcard-tag">Projeto independente</span>
         </div>
-        <h3>Design amigável &amp; Voz</h3>
-        <p>Criado por um só dev — Egüart — com visual acolhedor, escolha de tom, 10 temas de cores e voz natural em 4 timbres.</p>
+        <h3>Tom, 10 temas &amp; 4 vozes</h3>
+        <p>Criado por um só dev — Egüart — com 5 tons de resposta, 10 temas de cores, modo visitante sem cadastro e voz natural em 4 timbres.</p>
       </article>
     </div>
   </section>
@@ -354,7 +372,7 @@ body:not(.land-on) .app{display:flex}.app.go{opacity:1;pointer-events:auto}.app.
     <div class="lsteps">
       <div class="lstep rev"><div class="lnum">01</div><h3>Entre ou teste como visitante</h3><p>Use sua conta com e-mail, Google em um toque ou comece direto em uma sessão visitante local.</p></div>
       <div class="lstep rev"><div class="lnum">02</div><h3>Converse, pesquise ou fale</h3><p>Pergunte qualquer coisa, cole links para resumo, ative o modo Web ou toque em Falar para usar a voz.</p></div>
-      <div class="lstep rev"><div class="lnum">03</div><h3>Ensine e personalize</h3><p>Use <code>ensinar: pergunta = resposta</code> e ajuste tom, mapas, tema e recursos Beta nas configurações.</p></div>
+      <div class="lstep rev"><div class="lnum">03</div><h3>Ensine e personalize</h3><p>Use <code>ensinar: pergunta = resposta</code> e ajuste tom, voz, tema de cores e recursos Beta nas configurações.</p></div>
     </div>
   </section>
 
@@ -374,13 +392,13 @@ body:not(.land-on) .app{display:flex}.app.go{opacity:1;pointer-events:auto}.app.
     <div class="lprices">
       <div class="lprice rev">
         <div><div class="lptag">Aberto</div><div class="lpval"><b>Grátis</b><span>para sempre</span></div></div>
-        <ul class="lplist"><li>Conversas ilimitadas com contexto prolongado</li><li>10 mapas visuais + mapa neural ao vivo</li><li>Busca Web, leitura de links e memória</li><li>Conta privada ou sessão visitante</li></ul>
+        <ul class="lplist"><li>Conversas ilimitadas com contexto prolongado</li><li>Busca Web, leitura de links e memória ativa</li><li>Ensino direto, 5 tons de resposta e 10 temas</li><li>Voz comum em 4 timbres e sessão visitante</li></ul>
         <button class="lpbtn dark" id="land-price-free">Começar agora</button>
       </div>
       <div class="lprice feat rev">
         <span class="lbadge">Em breve</span>
         <div><div class="lptag">Modo Pro</div><div class="lpval"><b>Em breve</b><span>inscrições abertas</span></div></div>
-        <ul class="lplist"><li>Geração de imagens em alta definição</li><li>Criação e reprodução de sons e trilhas por IA</li><li>Voz neural em nuvem (4 timbres) com prioridade</li><li>Modelos mais potentes e recursos Beta antecipados</li></ul>
+        <ul class="lplist"><li><b>Petga completo:</b> chat de voz imersivo com ondas reativas, texto ao vivo e planilha de resumo</li><li>Geração de imagens em alta definição</li><li>Criação e reprodução de sons e trilhas por IA</li><li>Voz neural em nuvem com prioridade e recursos Beta antecipados</li></ul>
         <button class="lpbtn light" id="land-waitlist">Se inscrever no Modo Pro</button>
       </div>
     </div>
@@ -397,8 +415,8 @@ body:not(.land-on) .app{display:flex}.app.go{opacity:1;pointer-events:auto}.app.
     <button class="wl-back" id="wl-back" type="button">← Voltar ao site</button>
     <span class="wl-badge">Sinjorino Pro · Lista de espera</span>
     <h2>Inscreva-se para o Modo Pro</h2>
-    <p>Deixe seu nome e e-mail para receber aviso assim que o Modo Pro com geração de imagens, sons por IA e prioridade de modelos for liberado.</p>
-    <div class="wl-perks"><span>Imagens HD</span><span>Sons &amp; Trilhas IA</span><span>Voz em nuvem</span><span>Prioridade</span></div>
+    <p>Deixe seu nome e e-mail para receber aviso assim que o Modo Pro com o <b>Petga completo</b>, geração de imagens, sons por IA e prioridade de modelos for liberado.</p>
+    <div class="wl-perks"><span>Petga completo</span><span>Imagens HD</span><span>Sons &amp; Trilhas IA</span><span>Voz em nuvem</span></div>
     <form class="wl-form" id="wl-form">
       <input id="wl-name" type="text" placeholder="Seu nome" required maxlength="80" autocomplete="name">
       <input id="wl-email" type="email" placeholder="Seu melhor e-mail" required maxlength="120" autocomplete="email">
@@ -408,7 +426,7 @@ body:not(.land-on) .app{display:flex}.app.go{opacity:1;pointer-events:auto}.app.
   </div>
 </div>
 
-<div id="intro"><div class="ig"><svg class="ilogo" viewBox="0 0 48 48" fill="none"><circle class="d1" cx="24" cy="24" r="21" pathLength="1" stroke="currentColor" style="color:rgb(var(--ac))"/><path class="d2" pathLength="1" d="M9 24c4 0 4-9 7.5-9S20.5 24 24 24s4-9 7.5-9S35.5 24 39 24"/><path class="d3" pathLength="1" d="M9 28.5c4 0 4-6 7.5-6s4 6 7.5 6 4-6 7.5-6 4 6 7.5 6"/><path class="d4" pathLength="1" d="M9 32.5c4 0 4-3.8 7.5-3.8s4 3.8 7.5 3.8 4-3.8 7.5-3.8 4 3.8 7.5 3.8"/></svg><div class="iname" id="iname" aria-label="Sinjorino"></div><div class="ibar"><b></b></div><div class="icount" id="icount"></div></div><div class="iskip">toque para continuar</div></div>
+<div class="ig"><svg class="ilogo" viewBox="0 0 48 48" fill="none"><circle class="d1" cx="24" cy="24" r="21" pathLength="1" stroke="currentColor" style="color:rgb(var(--ac))"/><path class="d2" pathLength="1" d="M9 24c4 0 4-9 7.5-9S20.5 24 24 24s4-9 7.5-9S35.5 24 39 24"/><path class="d3" pathLength="1" d="M9 28.5c4 0 4-6 7.5-6s4 6 7.5 6 4-6 7.5-6 4 6 7.5 6"/><path class="d4" pathLength="1" d="M9 32.5c4 0 4-3.8 7.5-3.8s4 3.8 7.5 3.8 4-3.8 7.5-3.8 4 3.8 7.5 3.8"/></svg><div class="iname" id="iname" aria-label="Sinjorino"></div><div class="ibar"><b></b></div><div class="icount" id="icount"></div></div><div class="iskip">toque para continuar</div></div>
 
 <div id="voz" data-s="idle"><button class="vx" id="vx" aria-label="Fechar">×</button><div class="vname">Sinjorino</div><svg class="vlogo" id="vorb" viewBox="0 0 48 48" fill="none"><defs><clipPath id="vcp"><circle cx="24" cy="24" r="17.8"/></clipPath><radialGradient id="vgl"><stop offset="0" stop-color="#fff" stop-opacity=".44"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs><circle id="vhalo" cx="24" cy="24" r="32" fill="url(#vgl)" stroke="none" opacity=".35"/><circle class="rg" cx="24" cy="24" r="22.4" stroke-width=".45" stroke-dasharray="1.4 3.2" opacity=".6"/><circle id="vring" cx="24" cy="24" r="18.6" stroke-width=".95"/><g clip-path="url(#vcp)" stroke-linecap="round"><g id="vg"><path id="vw1" d="M-24 23 q6 -8.5 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0" stroke-width="1.2"/><path id="vw2" d="M-24 28.5 q6 -5.5 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0" stroke-width=".85" opacity=".6"/><path id="vw3" d="M-24 33 q6 -3.5 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0" stroke-width=".6" opacity=".35"/></g></g></svg><div class="vst" id="vst">toque na logo para falar</div><div class="vtx" id="vtx"></div><div class="veng" id="veng"></div><div class="vsel" id="vsel" style="display:none"><div class="vlbl">escolha a voz</div><div class="vchips" id="vchips"></div></div></div>
 
@@ -871,18 +889,18 @@ function sideLoop(t){
 requestAnimationFrame(sideLoop);
 
 const miniCvs=[...document.querySelectorAll('.mini-cv')],visMinis=new Set();
-const miniObs=new IntersectionObserver(entries=>{for(const en of entries){if(en.isIntersecting)visMinis.add(en.target);else visMinis.delete(en.target)}},{threshold:.05});
 function sizeMinis(){miniCvs.forEach(c=>{const p=c.parentElement;if(!p)return;c.width=p.clientWidth||280;c.height=p.clientHeight||112})}
-miniCvs.forEach(c=>miniObs.observe(c));new ResizeObserver(sizeMinis).observe($('#land-cap'));sizeMinis();
-
-function miniLoop(t){
-  requestAnimationFrame(miniLoop);
-  if(document.hidden||!inLand||scrolling||!visMinis.size)return;
-  if(t-lastMini<42)return;
-  lastMini=t;
-  for(const c of visMinis){const ctx=c.getContext('2d'),w=c.width,h=c.height;if(!w||!h)continue;ctx.clearRect(0,0,w,h);renderMap(ctx,w,h,+c.dataset.m,t,{variant:'mini',alpha:.95,busy:false})}
+if(miniCvs.length){
+  const miniObs=new IntersectionObserver(entries=>{for(const en of entries){if(en.isIntersecting)visMinis.add(en.target);else visMinis.delete(en.target)}},{threshold:.05});
+  miniCvs.forEach(c=>miniObs.observe(c));new ResizeObserver(sizeMinis).observe($('#land-cap'));sizeMinis();
+  requestAnimationFrame(function miniLoop(t){
+    requestAnimationFrame(miniLoop);
+    if(document.hidden||!inLand||scrolling||!visMinis.size)return;
+    if(t-lastMini<42)return;
+    lastMini=t;
+    for(const c of visMinis){const ctx=c.getContext('2d'),w=c.width,h=c.height;if(!w||!h)continue;ctx.clearRect(0,0,w,h);renderMap(ctx,w,h,+c.dataset.m,t,{variant:'mini',alpha:.95,busy:false})}
+  });
 }
-requestAnimationFrame(miniLoop);
 
 /* Grab-to-Scroll */
 (function(){
