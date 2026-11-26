@@ -11,6 +11,104 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* ====== ÁREA DE CLIQUE/TOQUE MAIOR (PC + MOBILE) & CONFIGURAÇÕES VERTICAIS ====== */
+button,a,[role="button"]{touch-action:manipulation}
+
+/* Topbar e barra lateral com alvos maiores */
+.icon-btn,.gear{min-width:40px;min-height:40px;width:40px;height:40px;border-radius:12px}
+.mem,.map-tog,.vbtn{height:40px;padding:0 14px}
+.newc{min-height:44px;padding:11px 16px}
+.hc{min-height:42px;padding:9px 10px 9px 12px}
+.hc i{min-width:34px;min-height:34px;display:grid;place-items:center;font-size:17px;border-radius:8px}
+
+/* Barra de chat, chips e ações */
+.bar{padding:8px 8px 8px 16px;gap:8px}
+#in{min-height:40px}
+.webb{height:40px;min-width:44px;padding:0 13px;border-radius:12px}
+#go{width:42px;height:42px;border-radius:12px}
+.tg{min-height:38px;padding:8px 16px;font-size:13px}
+.tone-pill{min-height:32px;padding:5px 12px}
+.img-chip{min-height:36px;padding:7px 13px;font-size:11px}
+
+/* Painel lateral de mapas e popover */
+.sm-auto{min-height:34px;padding:6px 13px}
+.sm-tab{min-height:36px;padding:8px 4px;font-size:9.5px}
+.pop button{min-height:42px;padding:10px 12px}
+
+/* Landing / Auth / Waitlist / Voz */
+.lbtn-ghost,.lbtn-primary,.lfoot-links button{min-height:42px;padding:10px 18px}
+.lcta-main,.lcta-sec,.lpbtn,.abtn,.gbtn,.aguest,.wl-btn{min-height:46px}
+.aclose,.wl-back{min-width:42px;min-height:42px}
+.tabs b{min-height:42px;display:grid;place-items:center}
+#voz .vx{width:46px;height:46px;font-size:23px}
+.vc{min-height:54px;padding:14px 16px}
+
+/* Configurações: botões maiores no PC */
+.ccard{grid-template-columns:236px minmax(0,1fr);height:min(590px,88vh)}
+.ccard>.vx{position:absolute;top:14px;right:14px;z-index:6;width:40px;height:40px;font-size:20px}
+.cfg-nav{padding:20px 14px;gap:6px}
+.cfg-tab{min-height:44px;padding:11px 14px;font-size:13.5px}
+.cfg-pane h3{padding-right:46px}
+.cfg-btn{min-height:40px;padding:10px 16px}
+.tc{min-height:40px;padding:9px 15px}
+.sw-tog{width:50px;height:30px}
+.sw-tog::after{width:24px;height:24px;top:2px;left:2px}
+.sw-tog.on::after{transform:translateX(20px)}
+.sw{gap:12px}
+.swb{width:40px;height:40px}
+
+/* ====== OTIMIZAÇÕES ESPECÍFICAS MOBILE ====== */
+@media(max-width:860px){
+  .topbar{height:60px;padding:0 10px;gap:8px}
+  .icon-btn,.gear{width:42px;height:42px;min-width:42px;min-height:42px}
+  .mem,.map-tog,.vbtn{height:42px;min-width:42px;padding:0 12px}
+  .vbtn{width:42px;padding:0}
+  .hc{min-height:46px}
+  .hc i{min-width:38px;min-height:38px}
+  .webb{height:42px;min-width:44px}
+  #go{width:44px;height:44px}
+  .tg{min-height:42px;padding:9px 16px;font-size:13.5px}
+
+  /* Configurações com seleção VERTICAL no mobile */
+  #cfg{padding:12px}
+  .ccard{
+    display:flex;flex-direction:column;
+    width:min(520px,100%);height:auto;max-height:88dvh;
+    overflow-y:auto;-webkit-overflow-scrolling:touch;
+  }
+  .ccard>.vx{top:12px;right:12px;width:44px;height:44px;font-size:22px}
+  .cfg-nav{
+    display:flex;flex-direction:column;flex:none;
+    width:100%;padding:16px 14px 14px;gap:6px;
+    border-right:0;border-bottom:1px solid var(--line);
+    overflow:visible;
+  }
+  .cfg-title{display:block;padding:4px 52px 10px 4px;font-size:17px}
+  .cfg-tab{
+    width:100%;min-height:46px;padding:12px 14px;
+    font-size:14px;white-space:normal;
+  }
+  .cfg-body{padding:18px 16px 24px;overflow:visible;flex:none}
+  .cfg-pane h3{padding-right:0}
+  .cfg-row{flex-wrap:wrap;gap:10px}
+  .cfg-btn{width:100%;min-height:44px;text-align:center}
+  .sw{gap:10px}
+  .swb{width:44px;height:44px}
+  .cnote{min-height:44px;font-size:16px}
+
+  /* Opções de imagem sem quebrar em várias linhas na tela pequena */
+  .img-opts.on{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:4px 0 6px}
+  .img-opts::-webkit-scrollbar{display:none}
+  .img-chip{flex:none;min-height:38px;padding:8px 14px}
+
+  #voz .vx{width:48px;height:48px;top:calc(14px + env(safe-area-inset-top,0px));right:14px}
+}
+
+@media(max-width:560px){
+  /* Em telas estreitas mantém a bolinha de status ao lado do nome e libera espaço pros botões */
+  .tb-status #sub{display:none}
+  .tb-brand{font-size:14px}
+}
 @font-face{font-family:"Vonca";font-weight:300;font-display:swap;src:url(fonts/vonca-light.woff2) format("woff2"),url(fonts/vonca-light.woff) format("woff"),url(fonts/vonca-light.otf) format("opentype"),url(fonts/vonca-light.ttf) format("truetype")}
 @font-face{font-family:"Vonca";font-weight:400;font-display:swap;src:url(fonts/vonca.woff2) format("woff2"),url(fonts/vonca.woff) format("woff"),url(fonts/vonca.otf) format("opentype"),url(fonts/vonca.ttf) format("truetype")}
 @font-face{font-family:"Vonca";font-weight:700;font-display:swap;src:url(fonts/vonca-bold.woff2) format("woff2"),url(fonts/vonca-bold.woff) format("woff"),url(fonts/vonca-bold.otf) format("opentype"),url(fonts/vonca-bold.ttf) format("truetype")}
@@ -434,7 +532,6 @@ body:not(.land-on) .app{display:flex}.app.go{opacity:1;pointer-events:auto}.app.
 <div id="cfg">
   <div class="ccard">
     <nav class="cfg-nav" aria-label="Seções de configurações">
-      <div class="cfg-title">Configurações</div>
       <button class="cfg-tab on" data-tab="conta" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><span>Sobre a conta</span></button>
       <button class="cfg-tab" data-tab="pers" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>Personalização</span></button>
       <button class="cfg-tab" data-tab="versao" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg><span>Versão</span></button>
@@ -1235,8 +1332,17 @@ function drawAccountPane(){
   else if(user){mk(nome(),user.email||'Conta conectada');if(semSenha(user))mk('Senha da conta','Você entrou com Google e ainda não definiu senha própria.','Definir senha',()=>{CF.classList.remove('on');manualPw=true;pendingPw=true;setMode('pw');$('#askip').textContent='voltar';AUTH.classList.add('show')});mk('Sair da conta','Encerra sua sessão neste aparelho.','Sair',()=>{CF.classList.remove('on');sb.auth.signOut()})}
   else{mk('Não conectado','Entre na sua conta ou use o modo visitante.','Entrar',()=>{CF.classList.remove('on');setMode('in');AUTH.classList.add('show')})}
 }
-function switchCfgTab(tab){document.querySelectorAll('.cfg-tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));document.querySelectorAll('.cfg-pane').forEach(p=>p.classList.toggle('on',p.id==='pane-'+tab))}
-document.querySelectorAll('.cfg-tab').forEach(b=>b.onclick=()=>switchCfgTab(b.dataset.tab));
+function switchCfgTab(tab){
+  document.querySelectorAll('.cfg-tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  document.querySelectorAll('.cfg-pane').forEach(p=>p.classList.toggle('on',p.id==='pane-'+tab));
+  if(innerWidth<=860){
+    const pane=$('#pane-'+tab),card=$('.ccard');
+    if(pane&&card){
+      const pr=pane.getBoundingClientRect(),cr=card.getBoundingClientRect();
+      if(pr.top>cr.bottom-140)card.scrollBy({top:pr.top-cr.top-16,behavior:'smooth'});
+    }
+  }
+}
 function openCfg(tab='conta'){drawAccountPane();drawTone();drawChips();drawSw();drawBeta();switchCfgTab(tab);CF.classList.add('on')}
 $('#gear').onclick=()=>openCfg('conta');$('#cclose').onclick=()=>CF.classList.remove('on');CF.addEventListener('pointerdown',e=>{if(e.target===CF)CF.classList.remove('on')});
 setTema(temaN,false);
